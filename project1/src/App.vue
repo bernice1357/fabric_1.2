@@ -1,64 +1,90 @@
 <template>
   <div id="app">
     <div class="banner">
-      <img class="logo" src="./assets/fab.png" />
-      <div class="nave">
-        <!-- 菜單展開收起
-        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group> -->
-        <!-- 菜單 -->
-        <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group> -->
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
-            </template>
-            <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
-        </el-menu>
-        <!-- 菜單 -->
+      <img class="logo" src="./assets/fab.png"/>
+      <h2>Hello, {{ user_name }}</h2>
+      <br>
+      <div class="account">
+        <el-dropdown>
+          <el-button type="primary">
+            帳號管理<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>訂單管理</el-dropdown-item>
+            <el-dropdown-item>登出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
-    <div>
-      <el-button>新增欄位</el-button>
-      <el-button>刪除欄位</el-button>
+    <div class="progress">
+      <span>新建訂單</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>供應商簽署</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>供應商交貨</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>供應商交貨完成</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>供應商開發票</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>中心廠確認發票</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>中心廠確認訂單完成</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>供應商確認訂單完成</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>訂單完成</span>
     </div>
-    <div class="table">
-      <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="item" label="日期" width="200"> </el-table-column>
-      <el-table-column prop="brand" label="姓名" width="200"> </el-table-column>
-      <el-table-column prop="date" label="地址" width="300"> </el-table-column>
-      </el-table>
+    <div class="input">
+      <div class="hint">
+        <h3>訂單編號</h3>
+        <h3>流程狀態</h3>
+        <h3>訂單日期</h3>
+        <h3>交貨日期</h3>
+        <h3>下單者</h3>
+        <h3>接單廠商</h3>
+        <h3>接單者</h3>
+        <h3>發票號碼</h3>
+        <h3>下單資料</h3>
+        <h3>交易資料</h3>
+      </div>
+      <div class="demo-input-suffix">
+        <el-input v-model="input" placeholder="訂單編號"></el-input>
+        <el-input v-model="input" placeholder="流程狀態"></el-input>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="訂單日期">
+        </el-date-picker>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="交貨日期">
+        </el-date-picker>
+        <el-input v-model="input" placeholder="下單者"></el-input>
+        <el-input v-model="input" placeholder="接單廠商"></el-input>
+        <el-input v-model="input" placeholder="接單者"></el-input>
+        <el-input v-model="input" placeholder="發票號碼"></el-input>
+        <el-input v-model="input" placeholder="下單資料"></el-input>
+        <el-input v-model="input" placeholder="交易資料"></el-input>
+      </div>
+      <div class="butt">
+        <el-button plain>送出訂單</el-button>
+        <el-button plain>取消</el-button>
+      </div>
     </div>
+    <div class="block"> <!-- 進度條 -->
+      <el-timeline :reverse="reverse">
+        <el-timeline-item
+          v-for="(activity, index) in activities"
+          :key="index"
+          :timestamp="activity.timestamp"
+        >
+          {{ activity.content }}
+        </el-timeline-item>
+      </el-timeline>
+    </div>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
@@ -71,6 +97,7 @@ export default {
     return {
       isCollapse: false,
       msg: "hhhhh",
+      user_name: "User",
       tableData: [
         {
           item: "2016-05-02",
@@ -93,6 +120,24 @@ export default {
           date: "上海市普陀区金沙江路 1516 弄",
         },
       ],
+      activities: [
+        {
+          content: "訂單接受",
+          timestamp: "2018-04-15",
+        },
+        {
+          content: "交貨完成",
+          timestamp: "2018-04-13",
+        },
+        {
+          content: "發票完成",
+          timestamp: "2019-03-11",
+        },
+        {
+          content: "訂單完成",
+          timestamp: "2019-05-11",
+        },
+      ],
     };
   },
   methods: {
@@ -101,8 +146,8 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
-  }
+    },
+  },
   /* eslint-disable no-unused-labels */
 };
 </script>
@@ -117,29 +162,75 @@ export default {
   margin-top: 60px;
 }
 
+.progress{
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .logo {
   position: fixed;
   left: 2%;
-  top:3%;
+  top: 3%;
   width: 20%;
+}
+
+.hint{
+  position: fixed;
+  width: 220px;
+  top: 35%;
+  left: 25%;
+}
+
+h3{
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.demo-input-suffix {
+  position: fixed;
+  width: 220px;
+  top: 36%;
+  left: 37%;
 }
 
 .table {
   position: fixed;
-  width: 70%;
-  top: 30%;
+  width: 50%;
+  top: 80%;
   left: 30%;
 }
 
-.nave{
+.banner {
+  height: 60%;
+}
+
+.block {
   position: fixed;
-  width: 22%;
-  top: 15%;
+  left: 1%;
+  top: 65%;
+  /* width: 20%; */
+}
+
+.nave {
+  position: fixed;
+  height: 80px;
+  top: 20%;
+}
+
+.butt{
+  
+}
+
+.account {
+  position: fixed;
+  top: 6%;
+  left: 88%;
 }
 
 /* 菜單 */
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-  }
+  width: 200px;
+  min-height: 400px;
+}
 </style>
