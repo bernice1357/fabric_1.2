@@ -1,10 +1,15 @@
 # START
 
 進入專案目錄
+
 `cd project1`
+
 安裝依賴
+
 `npm install`
+
 啟動
+
 `npm run serve`
 
 # fabcar_vue_ui
