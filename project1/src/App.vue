@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <!-- <button @click="yyy">uuuu</button> -->
-        <router-link to="/" class="link"></router-link>
+        <router-link to="/"></router-link>
         <router-view></router-view>
     </div>
 </template>
@@ -17,7 +17,3 @@ export default {
     },
 }
 </script>
-
-<style >
-
-</style>
