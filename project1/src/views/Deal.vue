@@ -18,7 +18,7 @@
                 label="車種">
             </el-table-column>
         </el-table>
-        <router-link to="/add" class="">
+        <router-link to="/add">
             <el-button onclick="create()">新增</el-button>
         </router-link>
     </div>

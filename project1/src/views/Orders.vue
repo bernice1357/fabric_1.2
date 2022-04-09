@@ -25,20 +25,20 @@
 <script>
 import axios from 'axios'
 export default{
-  name: 'orders',
-  data() {
-    return {
-      info: null,
-      tableData:[]
-    };
-  },
-  mounted () {
-    axios
-      .get('http://localhost:3000/cars')
-      .then(response => (this.info = response.data))
-      .catch(function (error) { // 请求失败处理
-        console.log(error);
-      });
-  }
+	name: 'orders',
+	data() {
+		return {
+		info: null,
+		tableData:[]
+		};
+	},
+	mounted () {
+		axios
+		.get('http://localhost:3000/cars')
+		.then(response => (this.info = response.data))
+		.catch(function (error) { // 请求失败处理
+			console.log(error);
+		});
+	}
 }
 </script>
