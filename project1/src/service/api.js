@@ -1,58 +1,43 @@
-import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:3000/'
-const api = {
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+import axios from "axios";
 
-  get: (url, params) => {
-    return new Promise((resolve, reject) => {
-      axios.get(url, {
-        params: params
-      })
-        .then((response) => {
-          resolve(response.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+const domain = "http://localhost:9901/";
+
+
+const api = axios.create({
+  baseURL: `${domain}`,
+
+  // baseURL: `${domain}/api/`,
+  headers: {
+    "Content-Type": "application/json",
+    accept: "application/json",
   },
+});
 
-  post: (url, params) => {
-    return new Promise((resolve, reject) => {
-      axios.post(url, params)
-        .then((response) => {
-          resolve(response.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
-  put: (url, params) => {
-    return new Promise((resolve, reject) => {
-      axios.put(url, params)
-        .then((response) => {
-          resolve(response.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
-
-  delete: (url, params) => {
-    return new Promise((resolve, reject) => {
-      axios.delete(url)
-        .then((response) => {
-          resolve(response.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+async function GET(url, params) {
+  try {
+    const response = await api.get(url, params);
+    return response.data;
+  }
+  catch (error) {
+    return Promise.reject(error);
   }
 }
-
-export default api
+async function POST(url, params) {
+  try {
+    const response = await api.post(url, params);
+    return response.data;
+  }
+  catch (error) {
+    return Promise.reject(error);
+  }
+}
+async function PUT(url, params) {
+  try {
+    const response = await api.put(url, params);
+    return response.data;
+  }
+  catch (error) {
+    return Promise.reject(error);
+  }
+}
+export { GET, POST, PUT };

@@ -287,6 +287,17 @@ export default {
 				this.$router.push({path:'/'})
 			}
 		},
+		async packageGetData() {
+			const url = "reports"; 
+			let res = await this.$GET(url);
+			
+			console.log(res);
+			console.log(res.reports);
+		},
+	},
+
+	created() {
+		this.packageGetData(); // 在created 階段把API資料叫進來
 	},
 	// mounted() {
 	// 	axios
