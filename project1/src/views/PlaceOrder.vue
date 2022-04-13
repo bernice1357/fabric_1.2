@@ -131,16 +131,46 @@
           <span>採購方：{{ initStatus }}</span>
         </el-collapse-item>
         <el-collapse-item title="歷史狀態" name="2">
-          <el-timeline style="height: 530px; overflow: auto">
-            <el-timeline-item
-              v-for="(activity, index) in activities"
-              :key="index"
-              :timestamp="activity.timestamp"
-            >
-              {{ activity.content }}
-            </el-timeline-item>
-          </el-timeline>
-        </el-collapse-item>
+      <!--<el-timeline :reverse="reverse" style="height: 530px; overflow: auto">-->
+			<el-timeline :reverse="reverse" style="height: 530px; overflow: auto">
+        <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose">
+				<el-timeline-item timestamp="2018/4/12" placement="top">
+          <el-menu-item index="1">
+            <i class="el-icon-menu"></i>
+            <span slot="title">訂單接受</span>
+          </el-menu-item>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2018/4/12" placement="top">
+          <el-menu-item index="2">
+            <i class="el-icon-menu"></i>
+            <span slot="title">交貨完成</span>
+          </el-menu-item>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2018/4/12" placement="top">
+          <el-menu-item index="3">
+            <i class="el-icon-menu"></i>
+            <span slot="title">訂單完成</span>
+          </el-menu-item>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2018/4/12" placement="top">
+          <el-menu-item index="4">
+            <i class="el-icon-menu"></i>
+            <span slot="title">確認交貨完成</span>
+          </el-menu-item>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2018/4/12" placement="top">
+          <el-menu-item index="5">
+            <i class="el-icon-menu"></i>
+            <span slot="title">確認發票開立</span>
+          </el-menu-item>
+        </el-timeline-item>
+        </el-menu>
+			</el-timeline>
+			</el-collapse-item>
       </el-collapse>
     </div>
     <el-radio-group>
@@ -322,7 +352,7 @@ export default {
 }
 
 #iii {
-  	text-decoration-color: teal;
+	text-decoration-color: teal;
 }
 
 h3 {
