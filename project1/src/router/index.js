@@ -6,20 +6,23 @@ import Orders from '../views/Orders.vue'
 import Deal from '../views/Deal.vue'
 import AllOrders from '../views/AllOrders.vue'
 import Add from '../views/Add.vue'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 const routes = [
     {
-        path: '/Orders',
-        name: 'orders',
+        path: '/orders',
+        name: 'Orders',
         component: Orders
     },{
-        path: '/PlaceOrder',
-        name: 'placeOrder',
+        path: '/placeOrder',
+        name: 'PlaceOrder',
         component: PlaceOrder
     },{
         path: '/deal',
-        name: 'deal',
+        name: 'Deal',
         component: Deal
     },{
       path: '/add',
@@ -27,8 +30,20 @@ const routes = [
       component: Add
     },{
         path: '/',
+        name: 'Home',
+        component: Home
+    },{
+        path: '/allorders',
         name: 'AllOrders',
         component: AllOrders
+    },{
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },{
+        path: '/register',
+        name: 'Register',
+        component: Register
     }
 ]
 

@@ -28,10 +28,10 @@
 import axios from 'axios'
 export default{
     name: 'deal',
-        data() {
-            return {
-                info: null
-            };
+    data() {
+        return {
+            info: null
+        };
     },
     method: {
         create(){

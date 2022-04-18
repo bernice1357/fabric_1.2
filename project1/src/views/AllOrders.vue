@@ -1,5 +1,5 @@
 <template>
-    <div id="home">
+    <div id="allorders">
         <router-link to="/placeOrder" class="link">
             <el-button icon="el-icon-plus" circle></el-button>
         </router-link>
