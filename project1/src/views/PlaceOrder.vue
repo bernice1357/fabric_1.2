@@ -84,7 +84,7 @@
                 <div class="book2">
                     <h3>交貨單</h3>
                     <el-form-item label="交貨日期">
-                        <el-date-picker type="date" v-model="form.sdate" style="width: 130px" id="c1"></el-date-picker>
+                        <el-date-picker type="date" v-model="form.sdate"  style="width:110px" id="c1"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="品名">
                         <el-input v-model="form.pname" id="c2"></el-input>
@@ -129,23 +129,22 @@
     </div>
     </div>
     <div class="block">
-      <el-collapse accordion>
-        <el-collapse-item title="目前狀態" name="1">
-          <span>供應商：{{ importData }}</span
-          ><br />
-          <span>採購方：{{ initStatus }}</span>
-        </el-collapse-item>
-        <el-collapse-item title="歷史狀態" name="2">
-            <el-timeline reverse="reverse" style="height: 530px; overflow: auto; scroll:auto;">
-                <el-timeline-item
-                v-for="(activity, index) in activities"
-                :key="index"
-                :timestamp="activity.timestamp">
-                    <el-button type="text">{{activity.content}}</el-button>
-                </el-timeline-item>
-            </el-timeline>
-            </el-collapse-item>
-      </el-collapse>
+		<el-collapse accordion>
+			<el-collapse-item title="目前狀態" name="1">
+			<span>供應商：{{ initStatus }}</span><br>
+			<span>採購方：{{ initStatus }}</span>
+			</el-collapse-item>
+			<el-collapse-item title="歷史狀態" name="2">
+				<el-timeline reverse="reverse" style="height: 530px; overflow: auto; scroll:auto;">
+					<el-timeline-item
+					v-for="(activity, index) in activities"
+					:key="index"
+					:timestamp="activity.timestamp">
+						<el-button type="text">{{activity.content}}</el-button>
+					</el-timeline-item>
+				</el-timeline>
+				</el-collapse-item>
+		</el-collapse>
     </div>
     <router-view></router-view>
 </div>
@@ -154,8 +153,6 @@
 <script>
 export default {
     name: "placeorder",
-    components: {},
-    props: {},
     data() {
         return {
             process: "",
@@ -207,35 +204,32 @@ export default {
             },
         };
     },
-    mounted:{
-    },
     computed: {
         initStatus() {
-            console.log(this.proStatus);
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
             if (this.proStatus == 1) {//新建訂單 1
                 arr=["a2","a9","a10","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             } else if (this.proStatus == 2) {//供應商簽署 2
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b4","b5","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6"];                
             } else if (this.proStatus == 3) {//供應商簽署 3
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
             } else if (this.proStatus == 4) {//供應商交貨 4
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
             } else if (this.proStatus == 5) {//驗貨 5
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","d1","d2","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","e3","e4","e5","e6"];                
             } else if (this.proStatus == 6) {//驗貨 6
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b4","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
             } else if (this.proStatus == 7) {//中心廠確認交貨完成 7
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","c2","c3","d1","d2","e3","e4","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e3","e4","e6"];                
             } else if (this.proStatus == 8) {//供應商開發票 8
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b4","b5","c2","c3","d1","d2","d3","e4","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e4","e6"];                
             } else if (this.proStatus == 9) {//中心廠確認發票 9
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","c2","c3","d1","d2","d3","e4"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e4"];
             }else if (this.proStatus == 10) {//中心廠確認訂單完成 10
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","c2","c3","d1","d2","d3"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
             }else if (this.proStatus == 11) {//供應商確認訂單完成 11
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","c2","c3","d1","d2","d3"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
             }
             arr.forEach(function(value){
                 document.getElementById(value).disabled = true;
@@ -245,37 +239,36 @@ export default {
         },
     },
     methods: {
-		onSubmit() {
-			this.packagePostData();
-		},
-        changeStatus(value) {
-            this.proStatus = value;
-            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
+        changeStatus(state) {
+            this.proStatus = state;//狀態改變
+            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             arr_init.forEach(function(value){
+				console.log(value);
                 document.getElementById(value).disabled = false;
                 document.getElementById(value).style ="background-color:transparent";
             });
-            var but_init=[];
-            if(value==1){
+            var but_init=[];//button禁用
+            if(state==1){
                 but_init=["1"];
-            }else if(value==2){
+            }else if(state==2){
                 but_init=["1","2"];
-            }else if(value==4){
+            }else if(state==4){
                 but_init=["1","2","3"];
-            }else if(value==5){
+            }else if(state==5){
                 but_init=["1","2","3","4"];
-            }else if(value==7){
+            }else if(state==7){
                 but_init=["1","2","3","4","5"];
-            }else if(value==8){
+            }else if(state==8){
                 but_init=["1","2","3","4","5","6"];
-            }else if(value==9){
+            }else if(state==9){
                 but_init=["1","2","3","4","5","6","7"];
-            }else if(value==10){
+            }else if(state==10){
                 but_init=["1","2","3","4","5","6","7","8"];
-            }else if(value==11){
+            }else if(state==11){
                 but_init=["1","2","3","4","5","6","7","8","9"];
             }
-            but_init.forEach(function(value){
+            but_init.forEach(function(value){//button禁用後改變樣式
+				console.log(value);
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
@@ -287,22 +280,22 @@ export default {
                 this.$router.push({path:'/allorders'})
             }
         },
+		onSubmit() {
+			this.packagePostData();
+		},
         async packageGetData() {
             const url = "reports"; 
             let res = await this.$GET(url);
             this.form = res.reports[0].Record;
 			this.form['key']=res.reports[0].Key;
-			console.log(this.key);
         },
 		async packagePostData() {
 			var yes = confirm("確定要送出訂單嗎？");
 
 			const url = "reports";
 			const params=this.form; 
-			// params['key'] = "A123"
             let res = await this.$POST(url, params);
 			console.log(res);
-			console.log(params);
 
             if (yes) {
                 alert("返回首頁");
@@ -326,138 +319,148 @@ export default {
     margin-top: 60px;
 }
 
-#iii {
-    text-decoration-color: teal;
+@media (max-width: 719px){/*最大719*/
+	.progress{
+		
+	}
+	.el-collapse {
+		width: 15%;
+		position: fixed;
+		top: 20%;
+	}
+
+}
+
+@media (min-width: 720px){/*最小720*/
+	.el-collapse {
+		width: 15%;
+		position: fixed;
+		top: 20%;
+	}
+	
 }
 
 h3 {
-    text-align: right;
-    padding-right: 10px;
+	text-align: right;
+	padding-right: 10px;
 }
 
 .progress {
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    border-style: none;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    width: 98%;
-    margin: 6px;
-    position: fixed;
-    top: 3%;
-    text-align: center;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+	border-style: none;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	width: 100%;
+	margin: 6px;
+	text-align: center;
 }
 
 .list {
-    position: fixed;
-    left: 20%;
-    top: 20%;
+	position: fixed;
+	left: 20%;
+	top: 20%;
 }
 
 .book {
-    width: 15%;
-    position: fixed;
-    left: 42%;
-    top: 18%;
+	width: 15%;
+	position: fixed;
+	left: 42%;
+	top: 18%;
 }
 
 .book2 {
-    width: 15.5%;
-    position: fixed;
-    left: 58%;
-    top: 18%;
+	width: 15.5%;
+	position: fixed;
+	left: 58%;
+	top: 18%;
 }
 
 .book3 {
-    width: 15%;
-    position: fixed;
-    left: 74%;
-    top: 18%;
+	width: 15%;
+	position: fixed;
+	left: 74%;
+	top: 18%;
 }
 
 .info {
-    position: fixed;
-    left: 60%;
-    top: 30%;
+	position: fixed;
+	left: 60%;
+	top: 30%;
 }
 
 .hint {
-    position: fixed;
-    width: 220px;
-    top: 32%;
-    left: 25%;
+	position: fixed;
+	width: 220px;
+	top: 32%;
+	left: 25%;
 }
 
 .block {
-    background-color: rgb(209, 224, 224);
-    height: 0%;
-    width: 20%;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    position: fixed;
-    left: 1%;
-    top: 27%;
-    padding-top: 0px;
+	background-color: rgb(209, 224, 224);
+	height: 0%;
+	width: 20%;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+	position: fixed;
+	left: 1%;
+	top: 27%;
+	padding-top: 0px;
 }
 
 .butt {
-    position: fixed;
-    left: 95%;
-    top: 50%;
+	position: fixed;
+	left: 95%;
+	top: 50%;
 }
 
 .input {
-    position: fixed;
-    top: 6%;
-    left: 88%;
+	position: fixed;
+	top: 6%;
+	left: 88%;
 }
 
 .account {
-    position: fixed;
-    top: 6%;
-    left: 88%;
-}
-
-.el-collapse {
-    width: 15%;
-    position: fixed;
-    top: 20%;
+	position: fixed;
+	top: 6%;
+	left: 88%;
 }
 
 .el-radio{
-    margin: 5px;
-    padding:6px;
+	margin: 5px;
+	padding:6px;
 }
 
 .el-radio-group {
-    position: fixed;
-    top: 48%;
-    left: 60%;
+	position: fixed;
+	top: 60%;
+	left: 60%;
 }
 
 .el-breadcrumb {
-    position: fixed;
-    top: 15%;
-    left: 5%;
+	position: fixed;
+	top: 15%;
+	left: 5%;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
+	width: 200px;
+	min-height: 400px;
 }
 
 .el-form {
-    position: fixed;
-    top: 35%;
-    left: 25%;
+	position: fixed;
+	top: 35%;
+	left: 25%;
 }
 
 .send {
-    position: fixed;
-    top: 82%;
-    left: 55%;
+	position: fixed;
+	top: 90%;
+	left: 65%;
 }
 
 .el-input >>> .el-input__inner {
-    background-color: transparent;
-    /* cursor: not-allowed; */
+	background-color: transparent;
+	/* cursor: not-allowed; */
 }
+
 </style>

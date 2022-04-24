@@ -19,11 +19,8 @@
 </template>
 
 <script>
-import Home from '../views/Home.vue';
+// import Home from '../views/Home.vue';
 export default {
-    components: {
-        Home,
-    },
     data(){
         return{
             form:{
@@ -35,11 +32,6 @@ export default {
     methods:{
         submit(){
             this.$router.push({path:'/allorders'});
-		// 	const url = "reports"; 
-		// 	let res = await this.$GET(url);
-			
-		// 	console.log(res);
-		// 	console.log(res.reports);
         },
     }
 };
