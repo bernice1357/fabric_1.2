@@ -2,20 +2,58 @@
     <!-- 交易資料 -->
     <div class="deal"> 
         <router-view></router-view>       
-        <el-table :data="info" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%">
             <el-table-column
-                prop="id"
-                label="ID"
-                width="180">
+                prop="Key"
+                label="ID">
             </el-table-column>
             <el-table-column
-                prop="brand"
-                label="品牌"
-                width="180">
+                prop="Record.交貨不良品數量"
+                label="交貨不良品數量">
             </el-table-column>
             <el-table-column
-                prop="model"
-                label="車種">
+                prop="Record.交貨急迫性"
+                label="交貨急迫性">
+            </el-table-column>
+            <el-table-column
+                prop="Record.訂單日期"
+                label="訂單日期">
+            </el-table-column>
+            <el-table-column
+                prop="Record.交貨日期"
+                label="交貨日期">
+            </el-table-column>
+            <el-table-column
+                prop="Record.採購人員"
+                label="採購人員">
+            </el-table-column>
+            <el-table-column
+                prop="Record.供應商代號"
+                label="供應商代號">
+            </el-table-column>
+            <el-table-column
+                prop="Record.供應商名稱"
+                label="供應商名稱">
+            </el-table-column>
+            <el-table-column
+                prop="Record.供應商簽署人員"
+                label="供應商簽署人員">
+            </el-table-column>
+            <el-table-column
+                prop="Record.採購品名"
+                label="採購品名">
+            </el-table-column>
+            <el-table-column
+                prop="Record.採購數量"
+                label="採購數量">
+            </el-table-column>
+            <el-table-column
+                prop="Record.採購單價"
+                label="採購單價">
+            </el-table-column>
+            <el-table-column
+                prop="Record.備註"
+                label="備註">
             </el-table-column>
         </el-table>
         <router-link to="/add">
@@ -25,35 +63,40 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 export default{
     name: 'deal',
     data() {
         return {
-            info: null
+            info: null,
+            tableData: [],
         };
     },
-    method: {
-        create(){
+    methods: {
+        async packageGetData() {
+            const url = "reports"; 
+            let res = await this.$GET(url);
+            
+            this.tableData = res.reports;
+            console.log(res);
+            console.log(res.reports);
+       },
 
-        }
     },
-  mounted() {
-    axios
-      .get('http://localhost:3000/cars')
-      .then(response => (this.info = response.data))
-      .catch(function (error) { // 请求失败处理
-        console.log(error);
-      });
-  }
+    created(){
+        // console.log("qwerqwer");
+        this.packageGetData();
+        
+    }
 }
 </script>
 
 <style scoped>
 .deal{
-    width: 35%;
+    /* width: 80%; */
     position: fixed;
-    top: 20%;
-    left: 35%;
+    /* top: 20%; */
+    /* left: 0%; */
+    margin: 10%;
 }
 </style>
