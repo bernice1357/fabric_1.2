@@ -7,6 +7,10 @@
         <el-form-item label="請輸入密碼" style="">
             <el-input v-model="form.password"></el-input>
         </el-form-item>
+        <el-form-item label="身份" style="">
+            <el-radio v-model="form.identity" label="1">供應商</el-radio>
+            <el-radio v-model="form.identity" label="2">下單者</el-radio>
+        </el-form-item>
         <el-form-item class="send">
             <el-button type="primary" size="medium" @click="submit()">送出</el-button>
         </el-form-item>
@@ -19,19 +23,19 @@
 </template>
 
 <script>
-// import Home from '../views/Home.vue';
 export default {
     data(){
         return{
             form:{
                 account:"",
-                password:""
-            }
+                password:"",
+                identity:"1"
+            },
         };
     },
     methods:{
         submit(){
-            this.$router.push({path:'/allorders'});
+            this.$router.push({path:'/placeorder'});
         },
     }
 };
@@ -42,8 +46,8 @@ body{
 }
 .send{
     position: absolute;
-    left:20%;
-    top: 55%;
+    left:18.5%;
+    top: 70%;
 }
 .el-form{
     border-radius: 8px;
@@ -63,7 +67,7 @@ h2{
 .regi{
     position: absolute;
     left:10%;
-    top: 78%;
+    top: 83%;
     /* background-color: rgb(26, 54, 90); */
 }
 </style>

@@ -9,7 +9,7 @@
 		</router-link>
     </div>
     <el-carousel height="250px">
-        <el-carousel-item v-for="item in title" :key="item">
+        <el-carousel-item v-for="(item,index) in title" :key="index">
             <img :src="item.svg" style="height: 200px;"/>
             <h1>{{item.text}}</h1>
         </el-carousel-item>

@@ -1,6 +1,22 @@
 <template>
 <!-- 新增訂單 -->
 <div class="placeorder">
+    <p class="hide">{{ initStatus }}</p>
+    <div class="banner">
+        <h2>訂單{{form.key}}</h2>
+        <h4 class="greeting">Hello, {{ user_name }}</h4>
+        <div class="account">
+            <el-dropdown>
+                <el-button type="primary">
+                    我的帳號<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>所有訂單</el-dropdown-item>
+                    <el-dropdown-item>帳號管理</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
+    </div>
     <div class="progress">
         <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
         <el-divider direction="vertical"></el-divider>
@@ -21,7 +37,7 @@
         <el-button type="text" @click="changeStatus(11)" id="9">供應商確認訂單完成</el-button>
     </div>
     <div class="input">
-        <el-form ref="form" :model="form" label-width="90px" size="small">
+        <el-form ref="form" :model="form" label-width="110px" size="small" style="height: 690px; overflow: auto; scroll:auto;">
             <div class="list">
                 <el-form-item label="訂單編號">
                     <el-input v-model="form.key" id="a1"></el-input>
@@ -84,7 +100,7 @@
                 <div class="book2">
                     <h3>交貨單</h3>
                     <el-form-item label="交貨日期">
-                        <el-date-picker type="date" v-model="form.sdate"  style="width:110px" id="c1"></el-date-picker>
+                        <el-date-picker type="date" v-model="form.sdate" style="width:105px" id="c1"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="品名">
                         <el-input v-model="form.pname" id="c2"></el-input>
@@ -110,41 +126,45 @@
                 <el-button type="primary" @click="packagePostData()">儲存訂單</el-button>
                 <el-button @click="confirm()">取消更改</el-button>
             </el-form-item>
-            <el-radio-group>
-                <el-radio :label="3" id="e1" v-model="form.oestablished">訂單接受</el-radio>
-                <el-radio :label="6" id="e2" v-model="form.ocargo">交貨完成</el-radio>
-                <el-radio :label="9" id="e3" v-model="form.bill">發票開立</el-radio>
-                <el-radio :label="10" id="e4" v-model="form.finish">訂單完成</el-radio><br>
-                <el-radio :label="10" id="e5" v-model="form.ccargo">確認交貨完成</el-radio>
-                <el-radio :label="10" id="e6" v-model="form.cbill">確認發票開立</el-radio>
-            </el-radio-group>
+            <div class="checkbox">
+                <el-checkbox v-model="form.oestablished" id="e1">訂單接受</el-checkbox><br>
+                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox>
+                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox><br>
+                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox>
+                <el-checkbox v-model="form.cbill" id="e5">確認發票開立</el-checkbox><br>
+                <el-checkbox v-model="form.finish" id="e6">訂單完成</el-checkbox>
+            </div>
         </el-form>
-    <div class="butt">
-        <router-link to="/orders">
-            <el-button type="primary" icon="el-icon-goods" circle></el-button>
-        </router-link>
-        <router-link to="/deal">
-            <el-button type="primary" icon="el-icon-s-data" circle></el-button>
-        </router-link>
-    </div>
     </div>
     <div class="block">
-		<el-collapse accordion>
-			<el-collapse-item title="目前狀態" name="1">
-			<span>供應商：{{ initStatus }}</span><br>
-			<span>採購方：{{ initStatus }}</span>
-			</el-collapse-item>
-			<el-collapse-item title="歷史狀態" name="2">
-				<el-timeline reverse="reverse" style="height: 530px; overflow: auto; scroll:auto;">
-					<el-timeline-item
-					v-for="(activity, index) in activities"
-					:key="index"
-					:timestamp="activity.timestamp">
-						<el-button type="text">{{activity.content}}</el-button>
-					</el-timeline-item>
-				</el-timeline>
-				</el-collapse-item>
-		</el-collapse>
+		<el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose">
+            <el-submenu index="1-8">
+                <template slot="title">未完成訂單</template>
+                <el-submenu index="1-6">
+                    <template slot="title">訂單1</template>
+                </el-submenu>
+            </el-submenu>
+			<!-- <span>{{A}}：{{ initStatus }}</span><br>
+			<span>{{B}}：{{ initStatus }}</span> -->
+			<el-submenu index="111">
+                <template slot="title">已完成訂單</template>
+                <el-submenu index="1-3" v-for="(item, index) in orders" :key="index">
+                    <template slot="title">訂單{{item.id}}</template>
+                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                        <el-timeline-item
+                        v-for="(activity, index) in activities"
+                        :key="index"
+                        :timestamp="activity.timestamp">
+                            <el-button type="text">{{activity.content}}</el-button>
+                        </el-timeline-item>
+                    </el-timeline>
+                </el-submenu>
+			</el-submenu>
+		</el-menu>
     </div>
     <router-view></router-view>
 </div>
@@ -153,15 +173,51 @@
 <script>
 export default {
     name: "placeorder",
+    component:{
+    },
     data() {
         return {
-            process: "",
+            A:"iiiii",
+            B:"dddddd",
             proStatus: 0,
             info: null,
             isCollapse: false,
             user_name: "User",
             order_name: "yyy",
+            url:"reports",
             activities: [
+                {
+                content: "訂單接受",
+                timestamp: "2018-04-15",
+                },
+                {
+                content: "交貨完成",
+                timestamp: "2018-04-13",
+                },
+                {
+                content: "訂單接受",
+                timestamp: "2018-04-15",
+                },
+                {
+                content: "交貨完成",
+                timestamp: "2018-04-13",
+                },
+                {
+                content: "訂單接受",
+                timestamp: "2018-04-15",
+                },
+                {
+                content: "交貨完成",
+                timestamp: "2018-04-13",
+                },
+                {
+                content: "訂單接受",
+                timestamp: "2018-04-15",
+                },
+                {
+                content: "交貨完成",
+                timestamp: "2018-04-13",
+                },
                 {
                 content: "訂單接受",
                 timestamp: "2018-04-15",
@@ -172,7 +228,7 @@ export default {
                 },
             ],
             form: {
-				key:"",
+				key:"SDD",
                 process:"",
                 urgent:"",
                 odate:"",
@@ -202,6 +258,17 @@ export default {
                 purchase: "",
                 supply: "",
             },
+            orders:[
+                {
+                    id:"AAA",
+                },
+                {
+                    id:"BBB",
+                },
+                {
+                    id:"CCC",
+                }
+            ]
         };
     },
     computed: {
@@ -221,11 +288,11 @@ export default {
             } else if (this.proStatus == 6) {//驗貨 6
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
             } else if (this.proStatus == 7) {//中心廠確認交貨完成 7
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e3","e4","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e4","e5","e6"];                
             } else if (this.proStatus == 8) {//供應商開發票 8
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e4","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e5","e6"];                
             } else if (this.proStatus == 9) {//中心廠確認發票 9
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e4"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e6"];
             }else if (this.proStatus == 10) {//中心廠確認訂單完成 10
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
             }else if (this.proStatus == 11) {//供應商確認訂單完成 11
@@ -250,22 +317,31 @@ export default {
             var but_init=[];//button禁用
             if(state==1){
                 but_init=["1"];
+                this.url="reports";
             }else if(state==2){
                 but_init=["1","2"];
+                this.url="reports/changSigner";
             }else if(state==4){
                 but_init=["1","2","3"];
+                this.url="reports/changSdate";
             }else if(state==5){
                 but_init=["1","2","3","4"];
+                this.url="reports/changSbad";
             }else if(state==7){
                 but_init=["1","2","3","4","5"];
+                this.url="reports/changOcargo";
             }else if(state==8){
                 but_init=["1","2","3","4","5","6"];
+                this.url="reports/changCcargo";
             }else if(state==9){
                 but_init=["1","2","3","4","5","6","7"];
+                this.url="reports/changInvoice";
             }else if(state==10){
                 but_init=["1","2","3","4","5","6","7","8"];
+                this.url="reports/changCbill";
             }else if(state==11){
                 but_init=["1","2","3","4","5","6","7","8","9"];
+                this.url="reports/Finish";
             }
             but_init.forEach(function(value){//button禁用後改變樣式
 				console.log(value);
@@ -276,7 +352,6 @@ export default {
         confirm() {
             var yes = confirm("確定要取消更改嗎？");
             if (yes) {
-                alert("返回首頁");
                 this.$router.push({path:'/allorders'})
             }
         },
@@ -291,8 +366,7 @@ export default {
         },
 		async packagePostData() {
 			var yes = confirm("確定要送出訂單嗎？");
-
-			const url = "reports";
+			const url = this.url;
 			const params=this.form; 
             let res = await this.$POST(url, params);
 			console.log(res);
@@ -320,13 +394,9 @@ export default {
 }
 
 @media (max-width: 719px){/*最大719*/
-	.progress{
-		
-	}
 	.el-collapse {
 		width: 15%;
 		position: fixed;
-		top: 20%;
 	}
 
 }
@@ -335,9 +405,23 @@ export default {
 	.el-collapse {
 		width: 15%;
 		position: fixed;
-		top: 20%;
 	}
-	
+}
+
+.hide{
+    display:none;
+}
+
+h2{
+    position: fixed;
+	left: 43%;
+    top:0%;
+    margin: 15px;
+}
+
+h4{
+    position: fixed;
+	left: 80%;
 }
 
 h3 {
@@ -345,41 +429,54 @@ h3 {
 	padding-right: 10px;
 }
 
+.banner{
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
+    height: 60px;
+}
+
+.el-dropdown{
+    position: fixed;
+    top: 1%;
+}
+
 .progress {
-	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-	border-style: none;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	width: 100%;
-	margin: 6px;
+    /* border:1px #dedcdb solid;; */
+	padding: 5px;
 	text-align: center;
+    position: fixed;
+    top: 10%;
+	left: 21.5%;
+    width: 65%;
 }
 
 .list {
+    padding: 15px;
 	position: fixed;
-	left: 20%;
-	top: 20%;
+	left: 18%;
+	top: 22%;
 }
 
 .book {
 	width: 15%;
 	position: fixed;
 	left: 42%;
-	top: 18%;
+	top: 22%;
 }
 
 .book2 {
-	width: 15.5%;
+	width: 15%;
 	position: fixed;
 	left: 58%;
-	top: 18%;
+	top: 22%;
 }
-
 .book3 {
 	width: 15%;
 	position: fixed;
-	left: 74%;
-	top: 18%;
+	left: 73%;
+	top: 22%;
 }
 
 .info {
@@ -395,23 +492,6 @@ h3 {
 	left: 25%;
 }
 
-.block {
-	background-color: rgb(209, 224, 224);
-	height: 0%;
-	width: 20%;
-	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-	position: fixed;
-	left: 1%;
-	top: 27%;
-	padding-top: 0px;
-}
-
-.butt {
-	position: fixed;
-	left: 95%;
-	top: 50%;
-}
-
 .input {
 	position: fixed;
 	top: 6%;
@@ -424,15 +504,16 @@ h3 {
 	left: 88%;
 }
 
-.el-radio{
+.el-checkbox{
 	margin: 5px;
 	padding:6px;
 }
 
-.el-radio-group {
+.checkbox {
 	position: fixed;
-	top: 60%;
-	left: 60%;
+	top: 62%;
+	left: 73%;
+    /* width: 15%; */
 }
 
 .el-breadcrumb {
@@ -441,12 +522,16 @@ h3 {
 	left: 5%;
 }
 
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-	width: 200px;
-	min-height: 400px;
+.el-menu{
+	width: 170px;
+	min-height: 0px;
+    width: 12%;
+    position: fixed;
+    top: 9%;
 }
 
 .el-form {
+
 	position: fixed;
 	top: 35%;
 	left: 25%;
@@ -454,13 +539,12 @@ h3 {
 
 .send {
 	position: fixed;
-	top: 90%;
-	left: 65%;
+	top: 80%;
+	left: 46%;
 }
 
 .el-input >>> .el-input__inner {
 	background-color: transparent;
-	/* cursor: not-allowed; */
 }
 
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <!-- 交易資料 -->
-    <div class="deal"> 
+    <!--交易資料 -->
+    <div class="deal">
         <router-view></router-view>       
         <el-table :data="tableData" style="width: 100%">
             <el-table-column
@@ -10,7 +10,7 @@
             <el-table-column
                 prop="Record.交貨不良品數量"
                 label="交貨不良品數量">
-            </el-table-column>
+            </el-table-column>>
             <el-table-column
                 prop="Record.交貨急迫性"
                 label="交貨急迫性">
@@ -84,19 +84,14 @@ export default{
 
     },
     created(){
-        // console.log("qwerqwer");
         this.packageGetData();
-        
     }
 }
 </script>
 
 <style scoped>
 .deal{
-    /* width: 80%; */
     position: fixed;
-    /* top: 20%; */
-    /* left: 0%; */
     margin: 10%;
 }
 </style>

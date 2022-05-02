@@ -8,14 +8,15 @@
                 <el-input v-model="form.password"></el-input>
             </el-form-item>
             <el-form-item class="send">
-                <router-link to="/allorders">
-				    <el-button type="primary" size="medium" @click="submit()">送出</el-button>
-                </router-link>
+				<el-button type="primary" size="medium" @click="submit()">送出</el-button>
             </el-form-item>
             <el-form-item class="regi">
                 <router-link to="/register">
                     <el-button type="text" style="color:rgb(26, 54, 90);">還沒有帳號嗎？點選這裡</el-button>
                 </router-link>
+            </el-form-item>
+            <el-form-item>
+                <p id="hide">帳號或密碼錯誤！</p>
             </el-form-item>
         </el-form>
     </Home>
@@ -38,10 +39,19 @@ export default {
     methods:{
         async submit(){           
 			const url = "reports"; 
-			let res = await this.$POST(url);
-			
-			console.log(res);
-			console.log(res.reports);
+            const params=this.form;
+			let res = await this.$POST(url, params);//驗證登入帳密
+            // console.log(res.status, res.token, res.role);
+            const status=false;
+
+            if(status===true){
+                this.GLOBAL.setToken(res.token);
+                this.GLOBAL.setRole(res.role);
+                this.$router.push({path:'/placeorder'});
+            }else{
+                console.log(22222);
+                document.getElementById("hide").style="display: block;"
+            }
 		},
     }
 };
@@ -50,13 +60,22 @@ export default {
 .send{
     position: absolute;
     left:20%;
-    top: 55%;
+    top: 63%;
+}
+
+#hide{
+    display: none;
+    margin:0px;
+    position: absolute;
+    left:19%;
+    top: 50%;
+    color: rgb(204, 75, 75);
 }
 
 .regi{
     position: absolute;
     left:10%;
-    top: 78%;
+    top: 80%;
     /* background-color: rgb(26, 54, 90); */
 }
 
@@ -67,7 +86,7 @@ export default {
     padding-top: 20px;
     padding-right: 20px;
     width:20%;
-    height: 25%;
+    height: 30%;
     position: absolute;
     top: 12%;
     left:58%;
