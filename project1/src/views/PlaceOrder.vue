@@ -360,7 +360,11 @@ export default {
 		},
         async packageGetData() {
             const url = "reports"; 
-            let res = await this.$GET(url);
+            const params= {
+                username: "aaa"
+            }
+            // console.log(JSON.stringify(params))
+            let res = await this.$POST(url,params);
             this.form = res.reports[0].Record;
 			this.form['key']=res.reports[0].Key;
         },
