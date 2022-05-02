@@ -2,13 +2,13 @@
     <Home>
         <el-form ref="form" size="mini" :model="form" label-width="60px" style="">
             <el-form-item label="帳號" style="">
-                <el-input v-model="form.account"></el-input>
+                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="密碼" style="">
                 <el-input v-model="form.password"></el-input>
             </el-form-item>
             <el-form-item class="send">
-				<el-button type="primary" size="medium" @click="submit()">送出</el-button>
+                <el-button type="primary" size="medium" @click="submit()">送出</el-button>
             </el-form-item>
             <el-form-item class="regi">
                 <router-link to="/register">
@@ -31,16 +31,16 @@ export default {
     data(){
         return{
             form:{
-                account:"",
+                username:"",
                 password:""
             }
         };
     },
     methods:{
         async submit(){           
-			const url = "reports"; 
+            const url = "login"; 
             const params=this.form;
-			let res = await this.$POST(url, params);//驗證登入帳密
+            let res = await this.$POST(url, params);//驗證登入帳密
             // console.log(res.status, res.token, res.role);
             const status=false;
 
@@ -52,7 +52,7 @@ export default {
                 console.log(22222);
                 document.getElementById("hide").style="display: block;"
             }
-		},
+        },
     }
 };
 </script>

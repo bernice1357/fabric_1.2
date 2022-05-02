@@ -35,7 +35,13 @@ export default {
     },
     methods:{
         submit(){
-            this.$router.push({path:'/placeorder'});
+            const url = "register"; 
+            const params = this.form;
+            let res = await this.$POST(url, params);
+            
+            console.log(res);
+            console.log(res.reports);
+            this.$router.push({path:'/allorders'});
         },
     }
 };
