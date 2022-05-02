@@ -2,14 +2,14 @@
     <el-form ref="form" size="medium" :model="form" label-width="100px" style="">
         <h2>註冊</h2>
         <el-form-item label="請輸入帳號" style="">
-            <el-input v-model="form.account"></el-input>
+            <el-input v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item label="請輸入密碼" style="">
             <el-input v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item label="身份" style="">
-            <el-radio v-model="form.identity" label="1">供應商</el-radio>
-            <el-radio v-model="form.identity" label="2">下單者</el-radio>
+            <el-radio v-model="form.identity" label="supplier">供應商</el-radio>
+            <el-radio v-model="form.identity" label="order">下單者</el-radio>
         </el-form-item>
         <el-form-item class="send">
             <el-button type="primary" size="medium" @click="submit()">送出</el-button>
@@ -27,9 +27,9 @@ export default {
     data(){
         return{
             form:{
-                account:"",
+                username:"",
                 password:"",
-                identity:"1"
+                role:"order"
             },
         };
     },
@@ -37,7 +37,7 @@ export default {
         submit(){
             const url = "register"; 
             const params = this.form;
-            let res = await this.$POST(url, params);
+            let res = this.$POST(url, params);
             
             console.log(res);
             console.log(res.reports);

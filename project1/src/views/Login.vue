@@ -42,9 +42,8 @@ export default {
             const params=this.form;
             let res = await this.$POST(url, params);//驗證登入帳密
             // console.log(res.status, res.token, res.role);
-            const status=false;
-
-            if(status===true){
+            // const status=false;
+            if(res.status===true){
                 this.GLOBAL.setToken(res.token);
                 this.GLOBAL.setRole(res.role);
                 this.$router.push({path:'/placeorder'});
