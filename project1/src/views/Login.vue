@@ -37,6 +37,17 @@ export default {
         };
     },
     methods:{
+<<<<<<< HEAD
+        async submit(){      
+            //TODO:回傳錯誤訊息     
+			// const url = "reports"; 
+            // const params=this.form;
+			// let res = await this.$POST(url, params);//驗證登入帳密
+            const status=true;
+            if(status===true){
+                // this.GLOBAL.setToken(res.token);
+                // this.GLOBAL.setRole(res.role);
+=======
         async submit(){           
             const url = "login"; 
             const params=this.form;
@@ -46,9 +57,9 @@ export default {
             if(res.status===true){
                 this.GLOBAL.setToken(res.token);
                 this.GLOBAL.setRole(res.role);
+>>>>>>> 6ac6df43f4ef3ee8426c3d454d1e24d275dc7203
                 this.$router.push({path:'/placeorder'});
             }else{
-                console.log(22222);
                 document.getElementById("hide").style="display: block;"
             }
         },

@@ -1,7 +1,7 @@
 <template>
 <!-- 新增訂單 -->
 <div class="placeorder">
-    <p class="hide">{{ initStatus }}</p>
+    <!-- <p class="hide">{{ initStatus }}</p> -->
     <div class="banner">
         <h2>訂單{{form.key}}</h2>
         <h4 class="greeting">Hello, {{ user_name }}</h4>
@@ -18,6 +18,7 @@
         </div>
     </div>
     <div class="progress">
+        <!--TODO:新增訂單按鈕-->
         <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" @click="changeStatus(2)" id="2">供應商簽署</el-button>
@@ -139,27 +140,27 @@
     <div class="block">
 		<el-menu
         default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose">
+        class="el-menu-vertical-demo">
             <el-submenu index="1-8">
                 <template slot="title">未完成訂單</template>
-                <el-submenu index="1-6">
-                    <template slot="title">訂單1</template>
-                </el-submenu>
-            </el-submenu>
-			<!-- <span>{{A}}：{{ initStatus }}</span><br>
-			<span>{{B}}：{{ initStatus }}</span> -->
-			<el-submenu index="111">
-                <template slot="title">已完成訂單</template>
-                <el-submenu index="1-3" v-for="(item, index) in orders" :key="index">
-                    <template slot="title">訂單{{item.id}}</template>
+                <el-submenu index="1-6" v-for="(item, index) in undone" :key="index">
+                    <template slot="title">訂單{{item.key}}</template>
                     <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(activity, index) in activities"
-                        :key="index"
-                        :timestamp="activity.timestamp">
-                            <el-button type="text">{{activity.content}}</el-button>
+                        v-for="(history, index) in item.Historys.Reports" :key="index">
+                            <el-button type="text">{{history.process}}</el-button>
+                        </el-timeline-item>
+                    </el-timeline>
+                </el-submenu>
+            </el-submenu>
+			<el-submenu index="111">
+                <template slot="title">已完成訂單</template>
+                <el-submenu index="1-3" v-for="(item, index) in done" :key="index">
+                    <template slot="title">訂單{{item.key}}</template>
+                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                        <el-timeline-item
+                        v-for="(history, index) in item.Historys.Reports" :key="index">
+                            <el-button type="text">{{history.process}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
@@ -177,13 +178,10 @@ export default {
     },
     data() {
         return {
-            A:"iiiii",
-            B:"dddddd",
             proStatus: 0,
             info: null,
             isCollapse: false,
-            user_name: "User",
-            order_name: "yyy",
+            user_name: "User",//TODO:改成全域變數
             url:"reports",
             activities: [
                 {
@@ -228,7 +226,7 @@ export default {
                 },
             ],
             form: {
-				key:"SDD",
+				key:"ABC",
                 process:"",
                 urgent:"",
                 odate:"",
@@ -258,21 +256,28 @@ export default {
                 purchase: "",
                 supply: "",
             },
-            orders:[
+            done:[
+
+            ],
+            undone:[
+
+            ],
+            allforms:[
                 {
-                    id:"AAA",
-                },
-                {
-                    id:"BBB",
-                },
-                {
-                    id:"CCC",
+                    data: "AAA",
+                    key: "ooo",
+                },{
+                    data: "BBB",
+                    key: "ooo",
+                },{
+                    data: "CCC",
+                    key: "ooo",
                 }
             ]
         };
     },
-    computed: {
-        initStatus() {
+    methods: {
+        initStatus() {//點某個狀態就會到這裡改變狀態
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
             if (this.proStatus == 1) {//新建訂單 1
@@ -304,9 +309,7 @@ export default {
             });
             return this.proStatus;
         },
-    },
-    methods: {
-        changeStatus(state) {
+        changeStatus(state) {//按上面流程的時候改變禁用欄位
             this.proStatus = state;//狀態改變
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             arr_init.forEach(function(value){
@@ -349,36 +352,37 @@ export default {
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
         },
-        confirm() {
+        confirm() {//取消更改訂單
             var yes = confirm("確定要取消更改嗎？");
             if (yes) {
                 this.$router.push({path:'/allorders'})
             }
         },
-		onSubmit() {
+		onSubmit() {//傳送訂單
 			this.packagePostData();
 		},
-        async packageGetData() {
+        async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態
             const url = "reports"; 
             const params= {
                 username: "aaa"
             }
             // console.log(JSON.stringify(params))
             let res = await this.$POST(url,params);
-            this.form = res.reports[0].Record;
-			this.form['key']=res.reports[0].Key;
+            this.form = res;
+            for(let i in res){
+                if(res[i].key=="true"){//已完成訂單
+                    this.done.push(res[i]);
+                }else{//未完成訂單
+                    this.undone.push(res[i]);
+                }
+            } 
         },
-		async packagePostData() {
-			var yes = confirm("確定要送出訂單嗎？");
+		async packagePostData() {//送出訂單
+			alert("儲存訂單中");
 			const url = this.url;
 			const params=this.form; 
             let res = await this.$POST(url, params);
 			console.log(res);
-
-            if (yes) {
-                alert("返回首頁");
-                this.$router.push({path:'/allorders'})
-            }		
         },
     },
     created() {
@@ -418,7 +422,7 @@ export default {
 
 h2{
     position: fixed;
-	left: 43%;
+	left: 46%;
     top:0%;
     margin: 15px;
 }
