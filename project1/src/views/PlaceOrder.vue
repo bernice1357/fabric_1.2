@@ -1,7 +1,6 @@
 <template>
 <!-- 新增訂單 -->
 <div class="placeorder">
-    <!-- <p class="hide">{{ initStatus }}</p> -->
     <div class="banner">
         <el-button class="new_butt" type="primary" plain @click="newReport()">訂單成立</el-button>
         <h2>訂單{{form.key}}</h2>
@@ -185,7 +184,7 @@ export default {
             proStatus: 0,
             isCollapse: false,
             user_name: "aaa",//TODO:之後改成全域變數
-            url:"reports",
+            user_name: this.GLOBAL.account,
             activities: [
                 {
                 content: "訂單接受",
@@ -309,6 +308,16 @@ export default {
                 note: ""
             };
         },
+        newOrder(){//新增訂單
+            this.changeStatus();//先清空欄位
+            const url = "createReports"; 
+            const params= {
+                username: this.user_name,
+                form: this.form
+            }
+            let res = await this.$POST(url,params);
+            console.log(res);
+        },
         initStatus() {//點某個狀態就會到這裡改變狀態
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
@@ -339,7 +348,6 @@ export default {
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="background-color:#e6ecf5; border-radius: 5px; cursor:not-allowed;";
             });
-            return this.proStatus;
         },
         changeStatus(state) {//按上面流程的時候改變禁用欄位
             this.proStatus = state;//狀態改變
@@ -383,6 +391,8 @@ export default {
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
+
+            this.initStatus();
         },
         confirm() {//取消更改訂單
             var yes = confirm("確定要取消更改嗎？");
@@ -488,13 +498,12 @@ h3 {
 }
 
 .progress {
-    /* border:1px #dedcdb solid;; */
 	padding: 5px;
 	text-align: center;
     position: fixed;
     top: 10%;
-	left: 21.5%;
-    width: 65%;
+	left: 19%;
+    width: 70%;
 }
 
 .list {
