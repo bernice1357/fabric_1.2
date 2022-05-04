@@ -3,6 +3,7 @@
 <div class="placeorder">
     <!-- <p class="hide">{{ initStatus }}</p> -->
     <div class="banner">
+        <el-button class="new_butt" type="primary" plain @click="newReport()">訂單成立</el-button>
         <h2>訂單{{form.key}}</h2>
         <h4 class="greeting">Hello, {{ user_name }}</h4>
         <div class="account">
@@ -18,7 +19,6 @@
         </div>
     </div>
     <div class="progress">
-        <!--TODO:新增訂單按鈕-->
         <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" @click="changeStatus(2)" id="2">供應商簽署</el-button>
@@ -141,26 +141,30 @@
 		<el-menu
         default-active="2"
         class="el-menu-vertical-demo">
-            <el-submenu index="1-8">
+            <el-submenu index="100">
                 <template slot="title">未完成訂單</template>
-                <el-submenu index="1-6" v-for="(item, index) in undone" :key="index">
+                <!--顯示每一筆訂單 -->
+                <el-submenu :index=index v-for="(item, index) in undone" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
-                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                    <!--顯示歷史狀態 -->
+                    <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index">
-                            <el-button type="text">{{history.Report.urgent}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent">
+                            <el-button type="text" @click="showUndoneHistory(this.history.TxId)">{{history.TxId}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
             </el-submenu>
-			<el-submenu index="111">
+			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
-                <el-submenu index="1-3" v-for="(item, index) in done" :key="index">
+                <!--顯示每一筆訂單 -->
+                <el-submenu :index=index v-for="(item, index) in done" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
-                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                    <!--顯示歷史狀態 -->
+                    <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index">
-                            <el-button type="text">{{history.TxId}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent"><!--TODO:timestamp改成供應商-->
+                            <el-button type="text" @click="showDoneHistory(this.history.TxId)">{{history.TxId}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
@@ -179,9 +183,8 @@ export default {
     data() {
         return {
             proStatus: 0,
-            info: null,
             isCollapse: false,
-            user_name: "aaa",//TODO:改成全域變數
+            user_name: "aaa",//TODO:之後改成全域變數
             url:"reports",
             activities: [
                 {
@@ -225,8 +228,8 @@ export default {
                 timestamp: "2018-04-13",
                 },
             ],
-            form: {
-				key:"ABC",
+            form: {//顯示在欄位上的資料
+				key:"",
                 process:"",
                 urgent:"",
                 odate:"",
@@ -262,21 +265,50 @@ export default {
             undone:[
 
             ],
-            allforms:[
-                {
-                    data: "AAA",
-                    key: "ooo",
-                },{
-                    data: "BBB",
-                    key: "ooo",
-                },{
-                    data: "CCC",
-                    key: "ooo",
-                }
-            ]
         };
     },
     methods: {
+        showUndoneHistory(id){//index代表哪筆訂單，id代表哪個歷史狀態
+            console.log(id);
+
+            // if(this.undone.TxId==id){
+            //     console.log(this.undone.TxId);
+            // }
+        },
+        showDoneHistory(id){
+            console.log(id);
+
+            // if()
+        },
+        newReport(){
+            this.form= {//顯示在欄位上的資料
+				key:"",
+                process:"",
+                urgent:"",
+                odate:"",
+                ddate:"",
+                purchase:"",
+                sname: "",
+                supplier:"",
+                signer: "",
+                invoice:"",
+                pname:"",
+                pquantity: "",
+                price: "",
+                sdate: "",
+                amount: "",
+                sbad: "",
+                volume: "",
+                ntraded: "",
+                oestablished: "",
+                ocargo: "",
+                ccargo: "",
+                bill: "",
+                cbill: "",
+                finish: "",
+                note: ""
+            };
+        },
         initStatus() {//點某個狀態就會到這裡改變狀態
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
@@ -366,18 +398,15 @@ export default {
             const params= {
                 username:this.user_name
             }
-            // console.log(1111111);
             let res = await this.$POST(url,params);
             console.log(res);
             for(let i in res.report){
-                console.log(i);
                 if(res.report[i].finish=="true"){//已完成訂單
                     this.done.push(res.report[i]);
                 }else{//未完成訂單
                     this.undone.push(res.report[i]);
                 }
             } 
-            console.log(this.undone);
         },
 		async packagePostData() {//送出訂單
 			alert("儲存訂單中");
@@ -437,6 +466,12 @@ h4{
 h3 {
 	text-align: right;
 	padding-right: 10px;
+}
+
+.new_butt{
+    position: fixed;
+    top: 2%;
+    left: 2%;
 }
 
 .banner{
