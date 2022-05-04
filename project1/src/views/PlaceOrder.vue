@@ -3,6 +3,7 @@
 <div class="placeorder">
     <!-- <p class="hide">{{ initStatus }}</p> -->
     <div class="banner">
+        <el-button class="new_butt" type="primary" plain @click="newReport()">訂單成立</el-button>
         <h2>訂單{{form.key}}</h2>
         <h4 class="greeting">Hello, {{ user_name }}</h4>
         <div class="account">
@@ -18,7 +19,6 @@
         </div>
     </div>
     <div class="progress">
-        <!--TODO:新增訂單按鈕-->
         <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" @click="changeStatus(2)" id="2">供應商簽署</el-button>
@@ -141,26 +141,30 @@
 		<el-menu
         default-active="2"
         class="el-menu-vertical-demo">
-            <el-submenu index="1-8">
+            <el-submenu index="100">
                 <template slot="title">未完成訂單</template>
-                <el-submenu index="1-6" v-for="(item, index) in undone" :key="index">
+                <!--顯示每一筆訂單 -->
+                <el-submenu :index=index v-for="(item, index) in undone" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
-                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                    <!--顯示歷史狀態 -->
+                    <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys.Reports" :key="index">
-                            <el-button type="text">{{history.process}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent">
+                            <el-button type="text" @click="showUndoneHistory(this.history.TxId)">{{history.TxId}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
             </el-submenu>
-			<el-submenu index="111">
+			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
-                <el-submenu index="1-3" v-for="(item, index) in done" :key="index">
+                <!--顯示每一筆訂單 -->
+                <el-submenu :index=index v-for="(item, index) in done" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
-                    <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
+                    <!--顯示歷史狀態 -->
+                    <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys.Reports" :key="index">
-                            <el-button type="text">{{history.process}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent"><!--TODO:timestamp改成供應商-->
+                            <el-button type="text" @click="showDoneHistory(this.history.TxId)">{{history.TxId}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
@@ -179,9 +183,8 @@ export default {
     data() {
         return {
             proStatus: 0,
-            info: null,
             isCollapse: false,
-            user_name: "User",//TODO:改成全域變數
+            user_name: "aaa",//TODO:之後改成全域變數
             url:"reports",
             activities: [
                 {
@@ -225,8 +228,8 @@ export default {
                 timestamp: "2018-04-13",
                 },
             ],
-            form: {
-				key:"ABC",
+            form: {//顯示在欄位上的資料
+				key:"",
                 process:"",
                 urgent:"",
                 odate:"",
@@ -262,21 +265,50 @@ export default {
             undone:[
 
             ],
-            allforms:[
-                {
-                    data: "AAA",
-                    key: "ooo",
-                },{
-                    data: "BBB",
-                    key: "ooo",
-                },{
-                    data: "CCC",
-                    key: "ooo",
-                }
-            ]
         };
     },
     methods: {
+        showUndoneHistory(id){//index代表哪筆訂單，id代表哪個歷史狀態
+            console.log(id);
+
+            // if(this.undone.TxId==id){
+            //     console.log(this.undone.TxId);
+            // }
+        },
+        showDoneHistory(id){
+            console.log(id);
+
+            // if()
+        },
+        newReport(){
+            this.form= {//顯示在欄位上的資料
+				key:"",
+                process:"",
+                urgent:"",
+                odate:"",
+                ddate:"",
+                purchase:"",
+                sname: "",
+                supplier:"",
+                signer: "",
+                invoice:"",
+                pname:"",
+                pquantity: "",
+                price: "",
+                sdate: "",
+                amount: "",
+                sbad: "",
+                volume: "",
+                ntraded: "",
+                oestablished: "",
+                ocargo: "",
+                ccargo: "",
+                bill: "",
+                cbill: "",
+                finish: "",
+                note: ""
+            };
+        },
         initStatus() {//點某個狀態就會到這裡改變狀態
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
@@ -313,7 +345,7 @@ export default {
             this.proStatus = state;//狀態改變
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             arr_init.forEach(function(value){
-				console.log(value);
+				// console.log(value);
                 document.getElementById(value).disabled = false;
                 document.getElementById(value).style ="background-color:transparent";
             });
@@ -347,7 +379,7 @@ export default {
                 this.url="reports/Finish";
             }
             but_init.forEach(function(value){//button禁用後改變樣式
-				console.log(value);
+				// console.log(value);
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
@@ -364,16 +396,15 @@ export default {
         async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態
             const url = "reports"; 
             const params= {
-                username: "aaa"
+                username:this.user_name
             }
-            // console.log(JSON.stringify(params))
             let res = await this.$POST(url,params);
-            this.form = res;
-            for(let i in res){
-                if(res[i].key=="true"){//已完成訂單
-                    this.done.push(res[i]);
+            console.log(res);
+            for(let i in res.report){
+                if(res.report[i].finish=="true"){//已完成訂單
+                    this.done.push(res.report[i]);
                 }else{//未完成訂單
-                    this.undone.push(res[i]);
+                    this.undone.push(res.report[i]);
                 }
             } 
         },
@@ -435,6 +466,12 @@ h4{
 h3 {
 	text-align: right;
 	padding-right: 10px;
+}
+
+.new_butt{
+    position: fixed;
+    top: 2%;
+    left: 2%;
 }
 
 .banner{
