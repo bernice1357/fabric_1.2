@@ -147,8 +147,8 @@
                     <template slot="title">訂單{{item.key}}</template>
                     <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys.Reports" :key="index">
-                            <el-button type="text">{{history.process}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index">
+                            <el-button type="text">{{history.Report.urgent}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
@@ -159,8 +159,8 @@
                     <template slot="title">訂單{{item.key}}</template>
                     <el-timeline reverse="reverse" style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys.Reports" :key="index">
-                            <el-button type="text">{{history.process}}</el-button>
+                        v-for="(history, index) in item.Historys" :key="index">
+                            <el-button type="text">{{history.TxId}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
                 </el-submenu>
@@ -181,7 +181,7 @@ export default {
             proStatus: 0,
             info: null,
             isCollapse: false,
-            user_name: "User",//TODO:改成全域變數
+            user_name: "aaa",//TODO:改成全域變數
             url:"reports",
             activities: [
                 {
@@ -313,7 +313,7 @@ export default {
             this.proStatus = state;//狀態改變
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             arr_init.forEach(function(value){
-				console.log(value);
+				// console.log(value);
                 document.getElementById(value).disabled = false;
                 document.getElementById(value).style ="background-color:transparent";
             });
@@ -347,7 +347,7 @@ export default {
                 this.url="reports/Finish";
             }
             but_init.forEach(function(value){//button禁用後改變樣式
-				console.log(value);
+				// console.log(value);
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
@@ -364,18 +364,20 @@ export default {
         async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態
             const url = "reports"; 
             const params= {
-                username: "aaa"
+                username:this.user_name
             }
-            // console.log(JSON.stringify(params))
+            // console.log(1111111);
             let res = await this.$POST(url,params);
-            this.form = res;
-            for(let i in res){
-                if(res[i].key=="true"){//已完成訂單
-                    this.done.push(res[i]);
+            console.log(res);
+            for(let i in res.report){
+                console.log(i);
+                if(res.report[i].finish=="true"){//已完成訂單
+                    this.done.push(res.report[i]);
                 }else{//未完成訂單
-                    this.undone.push(res[i]);
+                    this.undone.push(res.report[i]);
                 }
             } 
+            console.log(this.undone);
         },
 		async packagePostData() {//送出訂單
 			alert("儲存訂單中");
