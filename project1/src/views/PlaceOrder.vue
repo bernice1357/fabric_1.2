@@ -183,7 +183,6 @@ export default {
         return {
             proStatus: 0,
             isCollapse: false,
-            user_name: "aaa",//TODO:之後改成全域變數
             user_name: this.GLOBAL.account,
             activities: [
                 {
@@ -315,7 +314,7 @@ export default {
                 username: this.user_name,
                 form: this.form
             }
-            let res = await this.$POST(url,params);
+            let res = this.$POST(url,params);
             console.log(res);
         },
         initStatus() {//點某個狀態就會到這裡改變狀態
