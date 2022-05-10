@@ -15,8 +15,4 @@
 # fabcar_vue_ui
 PlaceOrder.vue：新建訂單頁面
 
-Home.vue：訂單管理頁面（跟左上角帳號管理>訂單管理是一樣的）
-
-Order.vue：顯示下單資料的頁面
-
-Deal.vue：顯示交易資料的頁面
+Login.vue：首頁＋登入頁面
