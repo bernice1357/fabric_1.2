@@ -16,3 +16,5 @@
 PlaceOrder.vue：新建訂單頁面
 
 Login.vue：首頁＋登入頁面
+
+Register.vue：註冊頁面
