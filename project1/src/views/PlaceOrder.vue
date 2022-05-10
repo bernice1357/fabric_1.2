@@ -2,7 +2,7 @@
 <!-- 新增訂單 -->
 <div class="placeorder">
     <div class="banner">
-        <el-button class="new_butt" type="primary" plain @click="newReport()">訂單成立</el-button>
+        <el-button class="new_butt" type="primary" plain @click="newOrder()">成立訂單</el-button>
         <h2>訂單{{form.key}}</h2>
         <h4 class="greeting">Hello, {{ user_name }}</h4>
         <div class="account">
@@ -123,8 +123,8 @@
                 </div>
             </div>
             <el-form-item class="send">
-                <el-button type="primary" @click="packagePostData()">儲存訂單</el-button>
-                <el-button @click="confirm()">取消更改</el-button>
+                <el-button type="primary" @click="onSubmit()">儲存訂單</el-button>
+                <el-button @click="cancel()">取消更改</el-button>
             </el-form-item>
             <div class="checkbox">
                 <el-checkbox v-model="form.oestablished" id="e1">訂單接受完成</el-checkbox>
@@ -179,12 +179,10 @@
 <script>
 export default {
     name: "placeorder",
-    component:{
-    },
     data() {
         return {
+            url:"",
             proStatus: 0,
-            isCollapse: false,
             user_name: this.GLOBAL.account,
             activities: [
                 {
@@ -228,8 +226,6 @@ export default {
                 timestamp: "2018-04-13",
                 },
             ],
-            input: ''
-            ,
             form: {//顯示在欄位上的資料
 				key:"",
                 process:"",
@@ -261,30 +257,25 @@ export default {
                 purchase: "",
                 supply: "",
             },
-            done:[
-
+            done:[//已完成訂單
             ],
-            undone:[
-
+            undone:[//未完成訂單
             ],
         };
     },
     methods: {
-        showUndoneHistory(id){//index代表哪筆訂單，id代表哪個歷史狀態
+        showUndoneHistory(id){//顯示未完成訂單（index代表哪筆訂單，id代表哪個歷史狀態）
             console.log(id);
-
             // if(this.undone.TxId==id){
             //     console.log(this.undone.TxId);
             // }
         },
-        showDoneHistory(id){
+        showDoneHistory(id){//顯示已完成訂單
             console.log(id);
-
-            // if()
         },
-        newReport(){
-            this.form= {//顯示在欄位上的資料
-				key:"",
+        newOrder(){//新增訂單
+            this.form= {//先清空上個狀態的欄位資料
+                key:"",
                 process:"",
                 urgent:"",
                 odate:"",
@@ -310,41 +301,51 @@ export default {
                 finish: "",
                 note: ""
             };
-        },
-        newOrder(){//新增訂單
-            this.changeStatus();//先清空欄位
-            const url = "createReports"; 
+            this.changeStatus();//先清空欄位禁用
+            this.url = "createReports";
             const params= {
                 username: this.user_name,
                 form: this.form
             }
-            let res = this.$POST(url,params);
+            let res = this.$POST(this.url,params);
             console.log(res);
         },
-        initStatus() {//點某個狀態就會到這裡改變狀態
+        changeStatus(state) {//點選上面流程狀態時改變禁用欄位
+            //改變狀態/新增訂單前先清空所有欄位禁用
+            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
+            arr_init.forEach(function(value){
+                document.getElementById(value).disabled = false;
+                document.getElementById(value).style ="background-color:transparent";
+            });
+
+            this.buttonDisabled(state);//處理被禁用的狀態按鈕
+            this.chageAPI(state);//改變每個流程所對應的API路徑
+            this.initStatus(state);//更新欄位禁用狀態
+        },
+        initStatus(state) {//點某個狀態按鈕就會到這裡改變狀態
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
-            if (this.proStatus == 1) {//新建訂單 1
+            if (state == 1) {//新建訂單 1
                 arr=["a2","a9","a10","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
-            } else if (this.proStatus == 2) {//供應商簽署 2
+            } else if (state == 2) {//供應商簽署 2
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6"];                
-            } else if (this.proStatus == 3) {//供應商簽署 3
+            } else if (state == 3) {//供應商簽署 3
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
-            } else if (this.proStatus == 4) {//供應商交貨 4
+            } else if (state == 4) {//供應商交貨 4
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
-            } else if (this.proStatus == 5) {//驗貨 5
+            } else if (state == 5) {//驗貨 5
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","e3","e4","e5","e6"];                
-            } else if (this.proStatus == 6) {//驗貨 6
+            } else if (state == 6) {//驗貨 6
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
-            } else if (this.proStatus == 7) {//中心廠確認交貨完成 7
+            } else if (state == 7) {//中心廠確認交貨完成 7
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e4","e5","e6"];                
-            } else if (this.proStatus == 8) {//供應商開發票 8
+            } else if (state == 8) {//供應商開發票 8
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e5","e6"];                
-            } else if (this.proStatus == 9) {//中心廠確認發票 9
+            } else if (state == 9) {//中心廠確認發票 9
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e6"];
-            }else if (this.proStatus == 10) {//中心廠確認訂單完成 10
+            }else if (state == 10) {//中心廠確認訂單完成 10
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
-            }else if (this.proStatus == 11) {//供應商確認訂單完成 11
+            }else if (state == 11) {//供應商確認訂單完成 11
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
             }
             arr.forEach(function(value){
@@ -352,81 +353,85 @@ export default {
                 document.getElementById(value).style ="background-color:#e6ecf5; border-radius: 5px; cursor:not-allowed;";
             });
         },
-        changeStatus(state) {//按上面流程的時候改變禁用欄位
-            this.proStatus = state;//狀態改變
-            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
-            arr_init.forEach(function(value){
-				// console.log(value);
-                document.getElementById(value).disabled = false;
-                document.getElementById(value).style ="background-color:transparent";
-            });
-            var but_init=[];//button禁用
+        buttonDisabled(state){//處理被禁用的狀態按鈕
+            var but_init=[];
             if(state==1){
                 but_init=["1"];
-                this.url="reports";
             }else if(state==2){
                 but_init=["1","2"];
-                this.url="reports/changSigner";
             }else if(state==4){
                 but_init=["1","2","3"];
-                this.url="reports/changSdate";
             }else if(state==5){
                 but_init=["1","2","3","4"];
-                this.url="reports/changSbad";
             }else if(state==7){
                 but_init=["1","2","3","4","5"];
-                this.url="reports/changOcargo";
             }else if(state==8){
                 but_init=["1","2","3","4","5","6"];
-                this.url="reports/changCcargo";
             }else if(state==9){
                 but_init=["1","2","3","4","5","6","7"];
-                this.url="reports/changInvoice";
             }else if(state==10){
                 but_init=["1","2","3","4","5","6","7","8"];
-                this.url="reports/changCbill";
             }else if(state==11){
                 but_init=["1","2","3","4","5","6","7","8","9"];
-                this.url="reports/Finish";
             }
-            but_init.forEach(function(value){//button禁用後改變樣式
-				// console.log(value);
+            but_init.forEach(function(value){//改變被禁用的欄位的樣式
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="color:gray; cursor:not-allowed;";
             });
-
-            this.initStatus();
         },
-        confirm() {//取消更改訂單
-            var yes = confirm("確定要取消更改嗎？");
-            if (yes) {
-                this.$router.push({path:'/allorders'})
+        chageAPI(state){//改變每個流程所對應的API路徑
+            if(state==1){
+                this.url="reports";
+            }else if(state==2){
+                this.url="reports/changSigner";
+            }else if(state==4){
+                this.url="reports/changSdate";
+            }else if(state==5){
+                this.url="reports/changSbad";
+            }else if(state==7){
+                this.url="reports/changOcargo";
+            }else if(state==8){
+                this.url="reports/changCcargo";
+            }else if(state==9){
+                this.url="reports/changInvoice";
+            }else if(state==10){
+                this.url="reports/changCbill";
+            }else if(state==11){
+                this.url="reports/Finish";
             }
         },
-		onSubmit() {//傳送訂單
+        cancel() {//「取消更改」按鈕
+            var yes = confirm("確定要取消更改嗎？");
+            if (yes) {//直接重新匯入原本訂單資料，沒有要管驗證
+                
+            }
+        },
+		onSubmit() {//「儲存訂單」按鈕
 			this.packagePostData();
 		},
-        async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態
-            const url = "reports"; 
+        async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態 
             const params= {
-                username:this.user_name
+                username: this.user_name
             }
-            let res = await this.$POST(url,params);
+            //透過使用者帳號傳入所有該使用者的訂單
+            let res = await this.$POST(this.url, params);
             console.log(res);
-            for(let i in res.report){
-                if(res.report[i].finish=="true"){//已完成訂單
-                    this.done.push(res.report[i]);
-                }else{//未完成訂單
-                    this.undone.push(res.report[i]);
+            for(let i in res.report){//區分出已完成/未完成訂單
+                if(res.report[i].finish=="true"){
+                    this.done.push(res.report[i]);//已完成訂單
+                }else{
+                    this.undone.push(res.report[i]);//未完成訂單
                 }
             } 
         },
 		async packagePostData() {//送出訂單
-			alert("儲存訂單中");
 			const url = this.url;
 			const params=this.form; 
-            let res = await this.$POST(url, params);
+            const res = await this.$POST(url, params);
 			console.log(res);
+            if(res.status){//TODO:搞懂回傳success的是哪個欄位
+                alert("訂單儲存成功！");
+            }
         },
     },
     created() {
@@ -603,5 +608,4 @@ h3 {
 .el-input >>> .el-input__inner {
 	background-color: transparent;
 }
-
 </style>
