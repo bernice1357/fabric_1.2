@@ -94,7 +94,7 @@
 						<span>{{this.form.price * this.form.pquantity}}</span>
                     </el-form-item>
                     <el-form-item label="備註">
-                        <el-input v-model="form.note" id="b5"></el-input>
+                        <el-input type='textarea' autosize maxlength="30" show-word-limit v-model="form.note" id="b5"></el-input>
                     </el-form-item>
                 </div>
                 <div class="book2">
@@ -127,11 +127,11 @@
                 <el-button @click="confirm()">取消更改</el-button>
             </el-form-item>
             <div class="checkbox">
-                <el-checkbox v-model="form.oestablished" id="e1">訂單接受</el-checkbox><br>
-                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox>
-                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox><br>
-                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox>
-                <el-checkbox v-model="form.cbill" id="e5">確認發票開立</el-checkbox><br>
+                <el-checkbox v-model="form.oestablished" id="e1">訂單接受完成</el-checkbox>
+                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox><br>
+                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox>
+                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox><br>
+                <el-checkbox v-model="form.cbill" id="e5">確認發票開立</el-checkbox>
                 <el-checkbox v-model="form.finish" id="e6">訂單完成</el-checkbox>
             </div>
         </el-form>
@@ -156,6 +156,8 @@
             </el-submenu>
 			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
+                <el-input placeholder="搜尋..." v-model="input" prefix-icon="el-icon-search" clearable>
+                </el-input>
                 <!--顯示每一筆訂單 -->
                 <el-submenu :index=index v-for="(item, index) in done" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
@@ -226,6 +228,8 @@ export default {
                 timestamp: "2018-04-13",
                 },
             ],
+            input: ''
+            ,
             form: {//顯示在欄位上的資料
 				key:"",
                 process:"",
@@ -501,35 +505,35 @@ h3 {
 	text-align: center;
     position: fixed;
     top: 10%;
-	left: 19%;
-    width: 70%;
+	left: 10%;
+    width: 80%;
 }
 
 .list {
-    padding: 15px;
+    padding: 6px;
 	position: fixed;
-	left: 18%;
-	top: 22%;
+	left: 11%;
+	top: 18%;
 }
 
 .book {
-	width: 15%;
+	width: 21%;
 	position: fixed;
-	left: 42%;
-	top: 22%;
+	left: 38%;
+	top: 18%;
 }
 
 .book2 {
 	width: 15%;
 	position: fixed;
-	left: 58%;
-	top: 22%;
+	left: 65%;
+	top: 18%;
 }
 .book3 {
 	width: 15%;
 	position: fixed;
-	left: 73%;
-	top: 22%;
+	left: 65%;
+	top: 58%;
 }
 
 .info {
@@ -548,7 +552,7 @@ h3 {
 .input {
 	position: fixed;
 	top: 6%;
-	left: 88%;
+	left: 80%;
 }
 
 .account {
@@ -559,13 +563,13 @@ h3 {
 
 .el-checkbox{
 	margin: 5px;
-	padding:6px;
+	padding:1px;
 }
 
 .checkbox {
 	position: fixed;
-	top: 62%;
-	left: 73%;
+	top: 75%;
+	left: 43%;
     /* width: 15%; */
 }
 
@@ -592,8 +596,8 @@ h3 {
 
 .send {
 	position: fixed;
-	top: 80%;
-	left: 46%;
+	top: 88%;
+	left: 75%;
 }
 
 .el-input >>> .el-input__inner {
