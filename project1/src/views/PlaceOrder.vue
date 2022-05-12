@@ -154,8 +154,7 @@
             </el-submenu>
 			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
-                <el-input placeholder="搜尋..." v-model="input" prefix-icon="el-icon-search" clearable>
-                </el-input>
+                <!-- <el-input placeholder="搜尋..." v-model="input" prefix-icon="el-icon-search" clearable></el-input>-->
                 <!--顯示每一筆訂單 -->
                 <el-submenu :index=index v-for="(item, index) in done" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
@@ -375,27 +374,27 @@ export default {
             if(state==1){
                 this.url="reports";
             }else if(state==2){
-                this.url="reports/changSigner";
+                this.url="reports/changeSigner";
             }else if(state==4){
-                this.url="reports/changSdate";
+                this.url="reports/changeSdate";
             }else if(state==5){
-                this.url="reports/changSbad";
+                this.url="reports/changeSbad";
             }else if(state==7){
-                this.url="reports/changOcargo";
+                this.url="reports/changeOcargo";
             }else if(state==8){
-                this.url="reports/changCcargo";
+                this.url="reports/changeCcargo";
             }else if(state==9){
-                this.url="reports/changInvoice";
+                this.url="reports/changeInvoice";
             }else if(state==10){
-                this.url="reports/changCbill";
+                this.url="reports/changeCbill";
             }else if(state==11){
                 this.url="reports/Finish";
             }
         },
         cancel() {//「取消更改」按鈕
             var yes = confirm("確定要取消更改嗎？");
-            if (yes) {//直接重新匯入原本訂單資料，沒有要管驗證
-                
+            if (yes) {//TODO:直接重新匯入原本訂單資料，沒有要管驗證
+                alert("修改已取消");
             }
         },
 		onSubmit() {//「儲存訂單」按鈕
@@ -411,6 +410,7 @@ export default {
             for(let i in res.report){//區分出已完成/未完成訂單
                 if(res.report[i].finish=="true"){
                     this.done.push(res.report[i]);//已完成訂單
+
                 }else{
                     this.undone.push(res.report[i]);//未完成訂單
                 }
@@ -418,16 +418,18 @@ export default {
         },
 		async packagePostData() {//送出訂單
 			const url = this.url;
+            console.log("urlllll: "+this.url);
 			var params=this.form; 
-            if(url=="createReports"){//如果是成立新訂單，必須傳送username
+            if(url==="createReports"){
                 params= {
                     username: this.user_name,
-                    form: this.form
+                    report: this.form
                 }
             }
+            console.log("form: "+params);
             const res = await this.$POST(url, params);
-			console.log(res);
-            if(res.status){//TODO:搞懂回傳success的是哪個欄位
+			console.log("res: "+res);
+            if(res.status==true){//TODO:搞懂回傳success的是哪個欄位
                 alert("訂單儲存成功！");
             }
         },
