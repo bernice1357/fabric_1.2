@@ -38,49 +38,49 @@
     </div>
     <div class="input">
         <el-form ref="form" :model="form" label-width="110px" size="small" style="height: 690px; overflow: auto; scroll:auto;">
-            <div class="list">
-                <el-form-item label="訂單編號">
-                    <el-input v-model="form.key" id="a1"></el-input>
-                </el-form-item>
-                <el-form-item label="流程狀態">
-                    <el-input v-model="form.process" id="a2"></el-input>
-                </el-form-item>
-                <el-form-item label="交貨急迫性">
-                    <el-input v-model="form.urgent" id="a3"></el-input>
-                </el-form-item>
-                <el-form-item label="訂單日期">
-                    <el-date-picker
-                    type="date"
-                    v-model="form.odate"
-                    id="a4"
-                    ></el-date-picker>
-                </el-form-item>
-                <el-form-item label="預交日期">
-                    <el-date-picker
-                    type="date"
-                    v-model="form.ddate"
-                    id="a5"
-                    ></el-date-picker>
-                </el-form-item>
-                <el-form-item label="採購人員">
-                    <el-input v-model="form.purchase" id="a6"></el-input>
-                </el-form-item>
-                <el-form-item label="供應商代號">
-                    <el-input v-model="form.sname" id="a7"></el-input>
-                </el-form-item>
-                <el-form-item label="供應商名稱">
-                    <el-input v-model="form.supplier" id="a8"></el-input>
-                </el-form-item>
-                <el-form-item label="供應商簽署人員">
-                    <el-input v-model="form.signer" id="a9"></el-input>
-                </el-form-item>
-                <el-form-item label="發票號碼">
-                    <el-input v-model="form.invoice" id="a10"></el-input>
-                </el-form-item>
-            </div>
             <div class="info">
+                <div class="list">
+                    <el-form-item label="訂單編號">
+                        <el-input v-model="form.key" id="a1"></el-input>
+                    </el-form-item>
+                    <el-form-item label="流程狀態">
+                        <el-input v-model="form.process" id="a2"></el-input>
+                    </el-form-item>
+                    <el-form-item label="交貨急迫性">
+                        <el-input v-model="form.urgent" id="a3"></el-input>
+                    </el-form-item>
+                    <el-form-item label="訂單日期">
+                        <el-date-picker
+                        type="date"
+                        v-model="form.odate"
+                        id="a4"
+                        ></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="預交日期">
+                        <el-date-picker
+                        type="date"
+                        v-model="form.ddate"
+                        id="a5"
+                        ></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="採購人員">
+                        <el-input v-model="form.purchase" id="a6"></el-input>
+                    </el-form-item>
+                    <el-form-item label="供應商代號">
+                        <el-input v-model="form.sname" id="a7"></el-input>
+                    </el-form-item>
+                    <el-form-item label="供應商名稱">
+                        <el-input v-model="form.supplier" id="a8"></el-input>
+                    </el-form-item>
+                    <el-form-item label="供應商簽署人員">
+                        <el-input v-model="form.signer" id="a9"></el-input>
+                    </el-form-item>
+                    <el-form-item label="發票號碼">
+                        <el-input v-model="form.invoice" id="a10"></el-input>
+                    </el-form-item>
+                </div>
                 <div class="book">
-                    <h3>採購下單</h3>
+                    <!-- <h3>採購下單</h3> -->
                     <el-form-item label="品名">
                         <el-input v-model="form.pname" id="b1"></el-input>
                     </el-form-item>
@@ -91,36 +91,36 @@
                         <el-input v-model="form.pquantity" id="b3"></el-input>
                     </el-form-item>
                     <el-form-item label="總金額">
-						<span>{{this.form.price * this.form.pquantity}}</span>
+                        <span>{{this.form.price * this.form.pquantity}}</span>
                     </el-form-item>
                     <el-form-item label="備註">
-                        <el-input type='textarea' autosize maxlength="30" show-word-limit v-model="form.note" id="b5"></el-input>
+                        <el-input type='textarea' rows=14 show-word-limit v-model="form.note" id="b5"></el-input>
                     </el-form-item>
                 </div>
-                <div class="book2">
-                    <h3>交貨單</h3>
-                    <el-form-item label="交貨日期">
-                        <el-date-picker type="date" v-model="form.sdate" style="width:105px" id="c1"></el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="品名">
-                        <el-input v-model="form.pname" id="c2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="數量">
-                        <el-input v-model="form.amount" id="c3"></el-input>
-                    </el-form-item>
-                </div>
-                <div class="book3">
-                    <h3>訂單資訊</h3>
-                    <el-form-item label="已交貨">
-                    <el-input v-model="form.volume" id="d1"></el-input>
-                    </el-form-item>
-                    <el-form-item label="未交貨">
-                    <el-input v-model="form.ntraded" id="d2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="不良品">
-                    <el-input v-model="form.sbad" id="d3"></el-input>
-                    </el-form-item>
-                </div>
+            </div>  
+            <div class="book2">
+                <h3>交貨單</h3>
+                <el-form-item label="交貨日期">
+                    <el-date-picker type="date" v-model="form.sdate" style="width:105px" id="c1"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="品名">
+                    <el-input v-model="form.pname" id="c2"></el-input>
+                </el-form-item>
+                <el-form-item label="數量">
+                    <el-input v-model="form.amount" id="c3"></el-input>
+                </el-form-item>
+            </div>
+            <div class="book3">
+                <h3>訂單資訊</h3>
+                <el-form-item label="已交貨">
+                <el-input v-model="form.volume" id="d1"></el-input>
+                </el-form-item>
+                <el-form-item label="未交貨">
+                <el-input v-model="form.ntraded" id="d2"></el-input>
+                </el-form-item>
+                <el-form-item label="不良品">
+                <el-input v-model="form.sbad" id="d3"></el-input>
+                </el-form-item>
             </div>
             <el-form-item class="send">
                 <el-button type="primary" @click="onSubmit()">儲存訂單</el-button>
@@ -519,15 +519,16 @@ h3 {
 .list {
     padding: 6px;
 	position: fixed;
-	left: 11%;
+	left: 15%;
 	top: 18%;
 }
 
 .book {
 	width: 21%;
 	position: fixed;
-	left: 38%;
+	left: 40%;
 	top: 18%;
+    /* border-style:solid; */
 }
 
 .book2 {
@@ -544,9 +545,10 @@ h3 {
 }
 
 .info {
-	position: fixed;
-	left: 60%;
-	top: 30%;
+	/* position: fixed; */
+	/* left: 60%;
+	top: 30%; */
+    border-style:solid;
 }
 
 .hint {
