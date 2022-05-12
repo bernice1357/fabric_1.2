@@ -1,9 +1,26 @@
 <template>
-<!-- 新增訂單 -->
 <div class="placeorder">
     <div class="banner">
         <el-button class="new_butt" type="primary" plain @click="newOrder()">成立訂單</el-button>
-        <h2>訂單{{form.key}}</h2>
+        <div class="progress">
+            <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(2)" id="2">供應商簽署</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(4)" id="3">供應商交貨</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(5)" id="4">驗貨</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(7)" id="5">供應商交貨完成</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(8)" id="6">供應商開發票</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(9)" id="7">中心廠確認發票</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(10)" id="8">中心廠確認訂單完成</el-button>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="changeStatus(11)" id="9">供應商確認訂單完成</el-button>
+        </div>
         <h4 class="greeting">Hello, {{ user_name }}</h4>
         <div class="account">
             <el-dropdown>
@@ -17,28 +34,10 @@
             </el-dropdown>
         </div>
     </div>
-    <div class="progress">
-        <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(2)" id="2">供應商簽署</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(4)" id="3">供應商交貨</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(5)" id="4">驗貨</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(7)" id="5">供應商交貨完成</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(8)" id="6">供應商開發票</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(9)" id="7">中心廠確認發票</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(10)" id="8">中心廠確認訂單完成</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="changeStatus(11)" id="9">供應商確認訂單完成</el-button>
-    </div>
     <div class="input">
         <el-form ref="form" :model="form" label-width="110px" size="small" style="height: 690px; overflow: auto; scroll:auto;">
             <div class="info">
+                <h2>訂單資訊</h2>
                 <div class="list">
                     <el-form-item label="訂單編號">
                         <el-input v-model="form.key" id="a1"></el-input>
@@ -80,7 +79,6 @@
                     </el-form-item>
                 </div>
                 <div class="book">
-                    <!-- <h3>採購下單</h3> -->
                     <el-form-item label="品名">
                         <el-input v-model="form.pname" id="b1"></el-input>
                     </el-form-item>
@@ -99,7 +97,7 @@
                 </div>
             </div>  
             <div class="book2">
-                <h3>交貨單</h3>
+                <h2>交貨單</h2>
                 <el-form-item label="交貨日期">
                     <el-date-picker type="date" v-model="form.sdate" style="width:105px" id="c1"></el-date-picker>
                 </el-form-item>
@@ -111,7 +109,7 @@
                 </el-form-item>
             </div>
             <div class="book3">
-                <h3>訂單資訊</h3>
+                <h2>交貨資訊</h2>
                 <el-form-item label="已交貨">
                 <el-input v-model="form.volume" id="d1"></el-input>
                 </el-form-item>
@@ -127,10 +125,10 @@
                 <el-button @click="cancel()">取消更改</el-button>
             </el-form-item>
             <div class="checkbox">
-                <el-checkbox v-model="form.oestablished" id="e1">訂單接受完成</el-checkbox>
-                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox><br>
-                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox>
-                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox><br>
+                <el-checkbox v-model="form.oestablished" id="e1">訂單接受</el-checkbox>
+                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox>
+                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox><br>
+                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox>
                 <el-checkbox v-model="form.cbill" id="e5">確認發票開立</el-checkbox>
                 <el-checkbox v-model="form.finish" id="e6">訂單完成</el-checkbox>
             </div>
@@ -455,7 +453,6 @@ export default {
 		width: 15%;
 		position: fixed;
 	}
-
 }
 
 @media (min-width: 720px){/*最小720*/
@@ -470,10 +467,9 @@ export default {
 }
 
 h2{
-    position: fixed;
-	left: 46%;
-    top:0%;
-    margin: 15px;
+    text-align: center;
+	/* padding-right: 10px; */
+    margin-top: 0px;
 }
 
 h4{
@@ -481,15 +477,10 @@ h4{
 	left: 80%;
 }
 
-h3 {
-	text-align: right;
-	padding-right: 10px;
-}
-
 .new_butt{
-    position: fixed;
-    top: 2%;
-    left: 2%;
+    position: absolute;
+    top: 15%;
+    left: 1%;
 }
 
 .banner{
@@ -508,45 +499,51 @@ h3 {
 .progress {
 	padding: 5px;
 	text-align: center;
-    position: fixed;
-    top: 10%;
-	left: 10%;
+    position: absolute;
+    top: 13%;
+	left: 3%;
     width: 80%;
 }
 
 .list {
-    padding: 6px;
-	position: fixed;
-	left: 15%;
-	top: 18%;
+	position: relative;
+    width: 45%;
+	left: 0%;
+	top: 0%;
 }
 
 .book {
-	width: 21%;
-	position: fixed;
-	left: 40%;
-	top: 18%;
-    /* border-style:solid; */
+	width: 40%;
+	position: absolute;
+    width: 50%;
+	left: 45%;
+	top: 13%;
 }
 
 .book2 {
-	width: 15%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 15px;
+	width: 20%;
 	position: fixed;
-	left: 65%;
-	top: 18%;
+	left: 70%;
+	top: 12%;
 }
 .book3 {
-	width: 15%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 15px;
+	width: 20%;
 	position: fixed;
-	left: 65%;
-	top: 58%;
+	left: 70%;
+	top: 44%;
 }
 
 .info {
-	/* position: fixed; */
-	/* left: 60%;
-	top: 30%; */
-    border-style:solid;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 15px;
+	position: fixed;
+	left: 15%;
+	top: 12%;
+    width: 50%;
 }
 
 .hint {
@@ -565,19 +562,20 @@ h3 {
 .account {
 	position: fixed;
 	top: 6%;
-	left: 88%;
+	left: 91%;
 }
 
 .el-checkbox{
 	margin: 5px;
-	padding:1px;
+	padding:3px;
 }
 
 .checkbox {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 	position: fixed;
-	top: 75%;
-	left: 43%;
-    /* width: 15%; */
+	top: 77%;
+	left: 70%;
+    width: 22%;
 }
 
 .el-breadcrumb {
@@ -603,8 +601,8 @@ h3 {
 
 .send {
 	position: fixed;
-	top: 88%;
-	left: 75%;
+	top: 91%;
+	left: 38%;
 }
 
 .el-input >>> .el-input__inner {

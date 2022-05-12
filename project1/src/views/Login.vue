@@ -73,7 +73,6 @@ export default {
     position: absolute;
     left:10%;
     top: 80%;
-    /* background-color: rgb(26, 54, 90); */
 }
 
 .el-form{
