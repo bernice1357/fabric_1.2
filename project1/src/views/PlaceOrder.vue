@@ -111,13 +111,13 @@
             <div class="book3">
                 <h2>交貨資訊</h2>
                 <el-form-item label="已交貨">
-                <el-input v-model="form.volume" id="d1"></el-input>
+                    <el-input v-model="form.volume" id="d1"></el-input>
                 </el-form-item>
                 <el-form-item label="未交貨">
-                <el-input v-model="form.ntraded" id="d2"></el-input>
+                    <el-input v-model="form.ntraded" id="d2"></el-input>
                 </el-form-item>
                 <el-form-item label="不良品">
-                <el-input v-model="form.sbad" id="d3"></el-input>
+                    <el-input v-model="form.sbad" id="d3"></el-input>
                 </el-form-item>
             </div>
             <el-form-item class="send">
@@ -125,12 +125,12 @@
                 <el-button @click="cancel()">取消更改</el-button>
             </el-form-item>
             <div class="checkbox">
-                <el-checkbox v-model="form.oestablished" id="e1">訂單接受</el-checkbox>
-                <el-checkbox v-model="form.ocargo" id="e2">交貨完成</el-checkbox>
-                <el-checkbox v-model="form.ccarg" id="e3">確認交貨完成</el-checkbox><br>
-                <el-checkbox v-model="form.bill" id="e4">發票開立</el-checkbox>
-                <el-checkbox v-model="form.cbill" id="e5">確認發票開立</el-checkbox>
-                <el-checkbox v-model="form.finish" id="e6">訂單完成</el-checkbox>
+                <el-checkbox v-model="form.oestablished" id="e1" :disabled="checkDisable.check1">訂單接受</el-checkbox>
+                <el-checkbox v-model="form.ocargo" id="e2" :disabled="checkDisable.check2">交貨完成</el-checkbox>
+                <el-checkbox v-model="form.ccargo" id="e3" :disabled="checkDisable.check3">確認交貨完成</el-checkbox><br>
+                <el-checkbox v-model="form.bill" id="e4" :disabled="checkDisable.check4">發票開立</el-checkbox>
+                <el-checkbox v-model="form.cbill" id="e5" :disabled="checkDisable.check5">確認發票開立</el-checkbox>
+                <el-checkbox v-model="form.finish" id="e6" :disabled="checkDisable.check6">訂單完成</el-checkbox>
             </div>
         </el-form>
     </div>
@@ -154,7 +154,7 @@
             </el-submenu>
 			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
-                <!-- <el-input placeholder="搜尋..." v-model="input" prefix-icon="el-icon-search" clearable></el-input>-->
+                <el-input placeholder="搜尋..." v-model="input" prefix-icon="el-icon-search" clearable></el-input>
                 <!--顯示每一筆訂單 -->
                 <el-submenu :index=index v-for="(item, index) in done" :key="index">
                     <template slot="title">訂單{{item.key}}</template>
@@ -178,8 +178,17 @@ export default {
     name: "placeorder",
     data() {
         return {
+            checkDisable:{//判斷checkbox禁用
+                check1:false,
+                check2:false,
+                check3:false,
+                check4:false,
+                check5:false,
+                check6:false
+            },
             url:"",
             proStatus: 0,
+            role: this.GLOBAL.role,
             user_name: this.GLOBAL.account,
             activities: [
                 {
@@ -242,17 +251,13 @@ export default {
                 sbad: "",
                 volume: "",
                 ntraded: "",
-                oestablished: "",
-                ocargo: "",
-                ccargo: "",
-                bill: "",
-                cbill: "",
-                finish: "",
+                oestablished: "false",
+                ocargo: "false",
+                ccargo: "false",
+                bill: "false",
+                cbill: "false",
+                finish: "false",
                 note: ""
-            },
-            status: {
-                purchase: "",
-                supply: "",
             },
             done:[//已完成訂單
             ],
@@ -261,14 +266,22 @@ export default {
         };
     },
     methods: {
-        showUndoneHistory(id){//顯示未完成訂單（index代表哪筆訂單，id代表哪個歷史狀態）
-            console.log(id);
-            // if(this.undone.TxId==id){
-            //     console.log(this.undone.TxId);
-            // }
-        },
-        showDoneHistory(id){//顯示已完成訂單
-            console.log(id);
+        // showUndoneHistory(id){//顯示未完成訂單（index代表哪筆訂單，id代表哪個歷史狀態）
+        //     console.log(id);
+        //     // if(this.undone.TxId==id){
+        //     //     console.log(this.undone.TxId);
+        //     // }
+        // },
+        // showDoneHistory(id){//顯示已完成訂單
+        //     // console.log(id);
+        // },
+        checkTrue(){
+            this.form.oestablished = String(this.form.oestablished);
+            this.form.ocargo = String(this.form.ocargo);
+            this.form.ccargo = String(this.form.ccargo);
+            this.form.bill = String(this.form.bill);
+            this.form.cbill = String(this.form.cbill);
+            this.form.finish = String(this.form.finish);
         },
         newOrder(){//新增訂單
             this.form= {//先清空上個狀態的欄位資料
@@ -290,20 +303,38 @@ export default {
                 sbad: "",
                 volume: "",
                 ntraded: "",
-                oestablished: "",
-                ocargo: "",
-                ccargo: "",
-                bill: "",
-                cbill: "",
-                finish: "",
+                oestablished: "false",
+                ocargo: "false",
+                ccargo: "false",
+                bill: "false",
+                cbill: "false",
+                finish: "false",
                 note: ""
             };
             this.changeStatus();//先清空欄位禁用
             this.url = "createReports";
         },
+        selectRole(){//因應使用者身份改變按鈕的禁用狀態
+            var arr=[];
+            if(this.role=="order"){
+                arr=["2","3","5","7","8"];
+            }else{
+                arr=["1","4","6","9"];   
+            }
+            arr.forEach(function(value){
+                document.getElementById(value).disabled = true;
+                document.getElementById(value).style ="color: rgb(172, 196, 227); cursor:not-allowed;";
+            });
+        },
         changeStatus(state) {//點選上面流程狀態時改變禁用欄位
             //改變狀態/新增訂單前先清空所有欄位禁用
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
+            this.checkDisable.check1=false;
+            this.checkDisable.check2=false;
+            this.checkDisable.check3=false;
+            this.checkDisable.check4=false;
+            this.checkDisable.check5=false;
+            this.checkDisable.check6=false;
             arr_init.forEach(function(value){
                 document.getElementById(value).disabled = false;
                 document.getElementById(value).style ="background-color:transparent";
@@ -313,27 +344,60 @@ export default {
             this.chageAPI(state);//改變每個流程所對應的API路徑
             this.initStatus(state);//更新欄位禁用狀態
         },
-        initStatus(state) {//點某個狀態按鈕就會到這裡改變狀態
+        initStatus(state) {//點某個狀態按鈕就會到這裡變成禁用
             var arr=[];
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
             if (state == 1) {//新建訂單 1
                 arr=["a2","a9","a10","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
+                this.checkDisable.check1=true;
+                this.checkDisable.check2=true;
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;
             } else if (state == 2) {//供應商簽署 2
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6"];    
+                this.checkDisable.check2=true;
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;
             } else if (state == 3) {//供應商簽署 3
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];  
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;              
             } else if (state == 4) {//供應商交貨 4
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];    
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;            
             } else if (state == 5) {//驗貨 5
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","d1","d2","e3","e4","e5","e6"]; 
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;               
             } else if (state == 6) {//驗貨 6
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b5","d1","d2","d3","e3","e4","e5","e6"];   
+                this.checkDisable.check3=true;
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;             
             } else if (state == 7) {//中心廠確認交貨完成 7
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e4","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","e4","e5","e6"];
+                this.checkDisable.check4=true;
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;                
             } else if (state == 8) {//供應商開發票 8
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e5","e6"];                
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b5","c2","c3","d1","d2","d3","e5","e6"];   
+                this.checkDisable.check5=true;
+                this.checkDisable.check6=true;             
             } else if (state == 9) {//中心廠確認發票 9
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3","e6"];
+                this.checkDisable.check6=true;
             }else if (state == 10) {//中心廠確認訂單完成 10
                 arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c2","c3","d1","d2","d3"];
             }else if (state == 11) {//供應商確認訂單完成 11
@@ -419,13 +483,11 @@ export default {
 		async packagePostData() {//送出訂單
 			const url = this.url;
             console.log("urlllll: "+this.url);
-			var params=this.form; 
-            if(url==="createReports"){
-                params= {
-                    username: this.user_name,
-                    report: this.form
-                }
+            let params= {
+                username: this.user_name,
+                report: this.form
             }
+            this.checkTrue();
             console.log("form: "+params);
             const res = await this.$POST(url, params);
 			console.log("res: "+res);
@@ -435,8 +497,11 @@ export default {
         },
     },
     created() {
-        this.packageGetData();
+        // this.packageGetData();
     },
+    mounted(){
+        this.selectRole();
+    }
 };
 </script>
 
@@ -470,7 +535,6 @@ export default {
 
 h2{
     text-align: center;
-	/* padding-right: 10px; */
     margin-top: 0px;
 }
 
@@ -577,7 +641,6 @@ h4{
 	position: fixed;
 	top: 77%;
 	left: 70%;
-    width: 22%;
 }
 
 .el-breadcrumb {
@@ -605,6 +668,10 @@ h4{
 	position: fixed;
 	top: 91%;
 	left: 38%;
+}
+
+.el-checkbox >>> .el-checkbox__inner{
+    background-color: transparent;
 }
 
 .el-input >>> .el-input__inner {

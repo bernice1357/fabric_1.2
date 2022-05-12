@@ -41,7 +41,7 @@ export default {
             
             console.log(res);
             console.log(res.reports);
-            this.$router.push({path:'/allorders'});
+            this.$router.push({path:'/placeOrder'});
         },
     }
 };
