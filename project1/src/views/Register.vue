@@ -29,7 +29,7 @@ export default {
             form:{
                 username:"",
                 password:"",
-                role:"order"
+                role:""
             },
         };
     },
