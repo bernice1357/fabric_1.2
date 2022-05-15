@@ -8,8 +8,8 @@
             <el-input v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item label="身份" style="">
-            <el-radio v-model="form.identity" label="supplier">供應商</el-radio>
-            <el-radio v-model="form.identity" label="order">下單者</el-radio>
+            <el-radio v-model="form.role" label="supplier">供應商</el-radio>
+            <el-radio v-model="form.role" label="order">下單者</el-radio>
         </el-form-item>
         <el-form-item class="send">
             <el-button type="primary" size="medium" @click="submit()">送出</el-button>
