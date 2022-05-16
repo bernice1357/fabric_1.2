@@ -35,12 +35,16 @@ export default {
     },
     methods:{
         submit(){
-            const url = "register"; 
+            const url = "register";
             const params = this.form;
             let res = this.$POST(url, params);
             
             console.log(res);
             console.log(res.reports);
+
+            this.GLOBAL.setAccount(this.form.username);
+            this.GLOBAL.setToken(res.token);
+            this.GLOBAL.setRole(res.role);
             this.$router.push({path:'/placeOrder'});
         },
     }

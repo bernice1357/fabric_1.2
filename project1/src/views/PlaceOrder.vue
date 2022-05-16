@@ -194,50 +194,8 @@ export default {
             url:"",
             proStatus: 0,
             isRouterAlive: true,
-            role: "order",//this.GLOBAL.role,
+            role: this.GLOBAL.role,
             user_name: this.GLOBAL.account,
-            activities: [
-                {
-                content: "訂單接受",
-                timestamp: "2018-04-15",
-                },
-                {
-                content: "交貨完成",
-                timestamp: "2018-04-13",
-                },
-                {
-                content: "訂單接受",
-                timestamp: "2018-04-15",
-                },
-                {
-                content: "交貨完成",
-                timestamp: "2018-04-13",
-                },
-                {
-                content: "訂單接受",
-                timestamp: "2018-04-15",
-                },
-                {
-                content: "交貨完成",
-                timestamp: "2018-04-13",
-                },
-                {
-                content: "訂單接受",
-                timestamp: "2018-04-15",
-                },
-                {
-                content: "交貨完成",
-                timestamp: "2018-04-13",
-                },
-                {
-                content: "訂單接受",
-                timestamp: "2018-04-15",
-                },
-                {
-                content: "交貨完成",
-                timestamp: "2018-04-13",
-                },
-            ],
             form: {//顯示在欄位上的資料
 				key:"",
                 process:"",
@@ -266,7 +224,6 @@ export default {
                 note: ""
             },
             done:[//已完成訂單
-                
             ],
             undone:[//未完成訂單
                 {
@@ -655,7 +612,7 @@ export default {
         },
         chageAPI(state){//改變每個流程所對應的API路徑
             if(state==1){
-                this.url="reports/createReport";
+                this.url="reports";
             }else if(state==2){
                 this.url="reports/changeSigner";
             }else if(state==4){
@@ -677,7 +634,7 @@ export default {
         cancel() {//「取消更改」按鈕
             var yes = confirm("確定要取消更改嗎？");
             if (yes) {//TODO:直接重新匯入原本訂單資料，沒有要管驗證
-                location.reload();//TODO:測試
+                // location.reload();//TODO:測試
                 alert("修改已取消");
             }
         },
@@ -692,7 +649,7 @@ export default {
             let res = await this.$POST(this.url, params);
             console.log(res);
             for(let i in res.report){//區分出已完成/未完成訂單
-                this.strToBool(i);//checkbox的string改boolean//TODO:測試
+                this.strToBool(i);//checkbox的string改boolean
                 if(res.report[i].finish=="true"){
                     this.done.push(res.report[i]);//已完成訂單
 
@@ -725,7 +682,7 @@ export default {
         },
     },
     created() {
-        // this.packageGetData();
+        this.packageGetData();
     },
     mounted(){
         this.selectRole();
