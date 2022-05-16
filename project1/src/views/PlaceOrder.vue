@@ -146,9 +146,9 @@
                 <el-submenu :index=index v-for="(item, index) in undone" :key="index">
                     <template slot="title"><el-button type="text" @click="showCurrentHistory(item)">訂單{{item.key}}</el-button></template>
                     <!--顯示歷史狀態 -->
-                    <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
+                    <el-timeline style="height: 200px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent"><!-- TODO:timestamp改成供應商-->
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)"><!-- TODO:timestamp改成供應商-->
                             <!-- TODO:確定要顯示的是流程還是上面步驟-->
                             <el-button type="text" @click="showUndoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
@@ -164,7 +164,7 @@
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 400px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index" :timestamp="history.Report.urgent"> <!-- TODO:timestamp改成供應商-->
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)"> <!-- TODO:timestamp改成供應商-->
                             <!-- TODO:確定要顯示的是流程還是上面步驟-->
                             <el-button type="text" @click="showDoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
@@ -358,6 +358,37 @@ export default {
                                 "Historys": null
                             }
                         },
+                        {
+                            "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
+                            "Report": {
+                                "key": "",
+                                "process": "供應商開立發票",
+                                "urgent": "1s",
+                                "odate": "1d",
+                                "ddate": "1b",
+                                "purchase": "1e",
+                                "sname": "1",
+                                "supplier": "1",
+                                "signer": "",
+                                "invoice": "",
+                                "pname": "1",
+                                "pquantity": "1",
+                                "price": "1",
+                                "sdate": "",
+                                "amount": "",
+                                "sbad": "",
+                                "volume": "udududud",
+                                "ntraded": "",
+                                "oestablished": "",
+                                "ocargo": "",
+                                "ccargo": "true",
+                                "bill": "",
+                                "cbill": "",
+                                "finish": "",
+                                "note": "1",
+                                "Historys": null
+                            }
+                        },
                     ]
                 },
                 {        
@@ -392,6 +423,16 @@ export default {
         };
     },
     methods: {
+        showWhichOne(data){
+            var str="";
+            if(data=="新增訂單" || data=="驗貨" || data=="中心廠確認交貨完成" || data=="中心廠確認發票開立" || data=="中心廠確認訂單完成"){
+                str="中心廠";
+                return 
+            }else if(data=="供應商簽署" || data=="供應商交貨" || data=="供應商交貨完成" || data=="供應商開立發票"){
+                str="供應商";
+                return str;
+            }
+        },
         showCurrentHistory(data){
             this.form=data;
             var state=0;
@@ -488,18 +529,18 @@ export default {
             this.changeStatus();//先清空欄位禁用
             this.url = "createReports";
         },
-        // selectRole(){//因應使用者身份改變按鈕的禁用狀態
-        //     var arr=[];
-        //     if(this.role=="order"){
-        //         arr=["2","3","5","7","8"];
-        //     }else if(this.role=="supplier"){
-        //         arr=["1","4","6","9"];   
-        //     }
-        //     arr.forEach(function(value){
-        //         document.getElementById(value).disabled = true;
-        //         document.getElementById(value).style ="color: rgb(172, 196, 227); cursor:not-allowed;";
-        //     });
-        // },
+        selectRole(){//因應使用者身份改變按鈕的禁用狀態
+            var arr=[];
+            if(this.role=="order"){
+                arr=["2","3","5","7","8"];
+            }else if(this.role=="supplier"){
+                arr=["1","4","6","9"];   
+            }
+            arr.forEach(function(value){
+                document.getElementById(value).disabled = true;
+                document.getElementById(value).style ="color: rgb(172, 196, 227); cursor:not-allowed;";
+            });
+        },
         changeStatus(state) {//點選上面流程狀態時改變禁用欄位
             //改變狀態/新增訂單前先清空所有欄位禁用
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b5","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
@@ -674,8 +715,8 @@ export default {
             if(res.status==true){
                 alert("訂單儲存成功！");
             }
-            this.packageGetData();
-            location.reload();//TODO:測試
+            // this.packageGetData();
+            // location.reload();//TODO:測試
         },
         reload () {
             // console.log('reload occure')
