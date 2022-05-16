@@ -612,7 +612,7 @@ export default {
         },
         chageAPI(state){//改變每個流程所對應的API路徑
             if(state==1){
-                this.url="reports";
+                this.url="createReports";
             }else if(state==2){
                 this.url="reports/changeSigner";
             }else if(state==4){
