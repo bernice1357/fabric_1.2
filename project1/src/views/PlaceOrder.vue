@@ -226,156 +226,6 @@ export default {
             done:[//已完成訂單
             ],
             undone:[//未完成訂單
-                {
-                    "key": "A66",
-                    "process": "發票開立",
-                    "urgent": "1s",
-                    "odate": "1d",
-                    "ddate": "1b",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "1",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys": [
-                        {
-                            "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
-                            "Report": {
-                                "key": "",
-                                "process": "供應商簽署",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "udududud",
-                                "ntraded": "",
-                                "oestablished": "",
-                                "ocargo": "",
-                                "ccargo": "true",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
-                            "Report": {
-                                "key": "",
-                                "process": "供應商完成",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
-                            "Report": {
-                                "key": "",
-                                "process": "供應商開立發票",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "udududud",
-                                "ntraded": "",
-                                "oestablished": "",
-                                "ocargo": "",
-                                "ccargo": "true",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                    ]
-                },
-                {        
-                    "key": "A66",
-                    "process": "",
-                    "urgent": "1s",
-                    "odate": "1d",
-                    "ddate": "1b",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "1",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                }
             ],
         };
     },
@@ -489,9 +339,9 @@ export default {
         selectRole(){//因應使用者身份改變按鈕的禁用狀態
             var arr=[];
             if(this.role=="order"){
-                arr=["2","3","5","7","8"];
+                arr=["2","3","5","8"];
             }else if(this.role=="supplier"){
-                arr=["1","4","6","9"];   
+                arr=["1","4","6","7","9"];   
             }
             arr.forEach(function(value){
                 document.getElementById(value).disabled = true;
