@@ -339,9 +339,9 @@ export default {
         selectRole(){//因應使用者身份改變按鈕的禁用狀態
             var arr=[];
             if(this.role=="order"){
-                arr=["2","3","5","8"];
+                arr=["2","3","5","7"];
             }else if(this.role=="supplier"){
-                arr=["1","4","6","7","9"];   
+                arr=["1","4","6","8","9"];
             }
             arr.forEach(function(value){
                 document.getElementById(value).disabled = true;
