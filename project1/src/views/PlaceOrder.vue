@@ -147,7 +147,7 @@
             <el-submenu index="100">
                 <template slot="title">未完成訂單</template>
                 <!--顯示每一筆訂單 -->
-                <el-submenu :index=index v-for="(item, index) in undone" :key="index">
+                <el-submenu :index=String(index) v-for="(item, index) in undone" :key="index">
                     <template slot="title"><el-button type="text" @click="showCurrentHistory(item)">訂單{{item.key}}</el-button></template>
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
@@ -200,12 +200,12 @@ export default {
                 check7:false,//儲存
                 check8:false,//取消修改
             },
-            url:"",
+            url:"/createReports",
             proStatus: 0,
             isRouterAlive: true,
             process:"",
-            role: "ooo",//this.GLOBAL.role,
-            user_name: "ooo",//this.GLOBAL.account,
+            role: this.GLOBAL.role,
+            user_name: this.GLOBAL.account,
             form: {//顯示在欄位上的資料
 				key:"",
                 process:"",
@@ -236,330 +236,330 @@ export default {
             done:[//已完成訂單
             ],
             undone:[//未完成訂單
-                {
-                    "key": "A66",
-                    "process": "發包中",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys": [
-                        {
-                            "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
-                            "Report": {
-                                "key": "",
-                                "process": "簽署成功",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "3a646c606fb9def06af9cca7196eecf72f3543b69030424c0fc2c486e8dae94b",
-                            "Report": {
-                                "key": "",
-                                "process": "發包中",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "mamaya",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "1",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "ff4df9ed1f0b3a48127a7d73fb070464567c139bc7620c5780ef0687957fcb30",
-                            "Report": {
-                                "key": "",
-                                "process": "驗貨中",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "mamaya",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "",
-                                "amount": "",
-                                "sbad": "",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "1",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "4c9f14c9b5fed950cc5028799b715b6eb9487a398346c7a376397bb72f2811a9",
-                            "Report": {
-                                "key": "",
-                                "process": "交貨中",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "mamaya",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "100023",
-                                "amount": "1",
-                                "sbad": "",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "1",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                        {
-                            "TxId": "616f73a911ead8ab803f2c25c2e844c6aea38e9a27efb7299150308e62b6c1ee",
-                            "Report": {
-                                "key": "",
-                                "process": "交貨完成",
-                                "urgent": "1s",
-                                "odate": "1d",
-                                "ddate": "1b",
-                                "purchase": "1e",
-                                "sname": "1",
-                                "supplier": "1",
-                                "signer": "mamaya",
-                                "invoice": "",
-                                "pname": "1",
-                                "pquantity": "1",
-                                "price": "1",
-                                "sdate": "100023",
-                                "amount": "1",
-                                "sbad": "12323",
-                                "volume": "",
-                                "ntraded": "",
-                                "oestablished": "1",
-                                "ocargo": "",
-                                "ccargo": "",
-                                "bill": "",
-                                "cbill": "",
-                                "finish": "",
-                                "note": "1",
-                                "Historys": null
-                            }
-                        },
-                    ],
-                },
-                {
-                    "key": "A66",
-                    "process": "ooo",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                },
-                {
-                    "key": "A66",
-                    "process": "ooo",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                },
-                {
-                    "key": "A66",
-                    "process": "ooo",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                },
-                {
-                    "key": "A66",
-                    "process": "ooo",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                },
-                {
-                    "key": "A66",
-                    "process": "ooo",
-                    "urgent": "1s",
-                    "odate": "",
-                    "ddate": "",
-                    "purchase": "1e",
-                    "sname": "1",
-                    "supplier": "1",
-                    "signer": "mamaya",
-                    "invoice": "1",
-                    "pname": "1",
-                    "pquantity": "1",
-                    "price": "1",
-                    "sdate": "",
-                    "amount": "1",
-                    "sbad": "12323",
-                    "volume": "",
-                    "ntraded": "",
-                    "oestablished": "1",
-                    "ocargo": "1cccqqwwe",
-                    "ccargo": "12",
-                    "bill": "1",
-                    "cbill": "111112",
-                    "finish": "1",
-                    "note": "1",
-                    "Historys":null
-                }
+            //     {
+            //         "key": "A66",
+            //         "process": "發包中",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys": [
+            //             {
+            //                 "TxId": "15bf8b6cefd266c24348a4dc7db2e6682cc7783be9f5467cff03961c111fa6a4",
+            //                 "Report": {
+            //                     "key": "",
+            //                     "process": "簽署成功",
+            //                     "urgent": "1s",
+            //                     "odate": "1d",
+            //                     "ddate": "1b",
+            //                     "purchase": "1e",
+            //                     "sname": "1",
+            //                     "supplier": "1",
+            //                     "signer": "",
+            //                     "invoice": "",
+            //                     "pname": "1",
+            //                     "pquantity": "1",
+            //                     "price": "1",
+            //                     "sdate": "",
+            //                     "amount": "",
+            //                     "sbad": "",
+            //                     "volume": "",
+            //                     "ntraded": "",
+            //                     "oestablished": "",
+            //                     "ocargo": "",
+            //                     "ccargo": "",
+            //                     "bill": "",
+            //                     "cbill": "",
+            //                     "finish": "",
+            //                     "note": "1",
+            //                     "Historys": null
+            //                 }
+            //             },
+            //             {
+            //                 "TxId": "3a646c606fb9def06af9cca7196eecf72f3543b69030424c0fc2c486e8dae94b",
+            //                 "Report": {
+            //                     "key": "",
+            //                     "process": "發包中",
+            //                     "urgent": "1s",
+            //                     "odate": "1d",
+            //                     "ddate": "1b",
+            //                     "purchase": "1e",
+            //                     "sname": "1",
+            //                     "supplier": "1",
+            //                     "signer": "mamaya",
+            //                     "invoice": "",
+            //                     "pname": "1",
+            //                     "pquantity": "1",
+            //                     "price": "1",
+            //                     "sdate": "",
+            //                     "amount": "",
+            //                     "sbad": "",
+            //                     "volume": "",
+            //                     "ntraded": "",
+            //                     "oestablished": "1",
+            //                     "ocargo": "",
+            //                     "ccargo": "",
+            //                     "bill": "",
+            //                     "cbill": "",
+            //                     "finish": "",
+            //                     "note": "1",
+            //                     "Historys": null
+            //                 }
+            //             },
+            //             {
+            //                 "TxId": "ff4df9ed1f0b3a48127a7d73fb070464567c139bc7620c5780ef0687957fcb30",
+            //                 "Report": {
+            //                     "key": "",
+            //                     "process": "驗貨中",
+            //                     "urgent": "1s",
+            //                     "odate": "1d",
+            //                     "ddate": "1b",
+            //                     "purchase": "1e",
+            //                     "sname": "1",
+            //                     "supplier": "1",
+            //                     "signer": "mamaya",
+            //                     "invoice": "",
+            //                     "pname": "1",
+            //                     "pquantity": "1",
+            //                     "price": "1",
+            //                     "sdate": "",
+            //                     "amount": "",
+            //                     "sbad": "",
+            //                     "volume": "",
+            //                     "ntraded": "",
+            //                     "oestablished": "1",
+            //                     "ocargo": "",
+            //                     "ccargo": "",
+            //                     "bill": "",
+            //                     "cbill": "",
+            //                     "finish": "",
+            //                     "note": "1",
+            //                     "Historys": null
+            //                 }
+            //             },
+            //             {
+            //                 "TxId": "4c9f14c9b5fed950cc5028799b715b6eb9487a398346c7a376397bb72f2811a9",
+            //                 "Report": {
+            //                     "key": "",
+            //                     "process": "交貨中",
+            //                     "urgent": "1s",
+            //                     "odate": "1d",
+            //                     "ddate": "1b",
+            //                     "purchase": "1e",
+            //                     "sname": "1",
+            //                     "supplier": "1",
+            //                     "signer": "mamaya",
+            //                     "invoice": "",
+            //                     "pname": "1",
+            //                     "pquantity": "1",
+            //                     "price": "1",
+            //                     "sdate": "100023",
+            //                     "amount": "1",
+            //                     "sbad": "",
+            //                     "volume": "",
+            //                     "ntraded": "",
+            //                     "oestablished": "1",
+            //                     "ocargo": "",
+            //                     "ccargo": "",
+            //                     "bill": "",
+            //                     "cbill": "",
+            //                     "finish": "",
+            //                     "note": "1",
+            //                     "Historys": null
+            //                 }
+            //             },
+            //             {
+            //                 "TxId": "616f73a911ead8ab803f2c25c2e844c6aea38e9a27efb7299150308e62b6c1ee",
+            //                 "Report": {
+            //                     "key": "",
+            //                     "process": "交貨完成",
+            //                     "urgent": "1s",
+            //                     "odate": "1d",
+            //                     "ddate": "1b",
+            //                     "purchase": "1e",
+            //                     "sname": "1",
+            //                     "supplier": "1",
+            //                     "signer": "mamaya",
+            //                     "invoice": "",
+            //                     "pname": "1",
+            //                     "pquantity": "1",
+            //                     "price": "1",
+            //                     "sdate": "100023",
+            //                     "amount": "1",
+            //                     "sbad": "12323",
+            //                     "volume": "",
+            //                     "ntraded": "",
+            //                     "oestablished": "1",
+            //                     "ocargo": "",
+            //                     "ccargo": "",
+            //                     "bill": "",
+            //                     "cbill": "",
+            //                     "finish": "",
+            //                     "note": "1",
+            //                     "Historys": null
+            //                 }
+            //             },
+            //         ],
+            //     },
+            //     {
+            //         "key": "A66",
+            //         "process": "ooo",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys":null
+            //     },
+            //     {
+            //         "key": "A66",
+            //         "process": "ooo",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys":null
+            //     },
+            //     {
+            //         "key": "A66",
+            //         "process": "ooo",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys":null
+            //     },
+            //     {
+            //         "key": "A66",
+            //         "process": "ooo",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys":null
+            //     },
+            //     {
+            //         "key": "A66",
+            //         "process": "ooo",
+            //         "urgent": "1s",
+            //         "odate": "",
+            //         "ddate": "",
+            //         "purchase": "1e",
+            //         "sname": "1",
+            //         "supplier": "1",
+            //         "signer": "mamaya",
+            //         "invoice": "1",
+            //         "pname": "1",
+            //         "pquantity": "1",
+            //         "price": "1",
+            //         "sdate": "",
+            //         "amount": "1",
+            //         "sbad": "12323",
+            //         "volume": "",
+            //         "ntraded": "",
+            //         "oestablished": "1",
+            //         "ocargo": "1cccqqwwe",
+            //         "ccargo": "12",
+            //         "bill": "1",
+            //         "cbill": "111112",
+            //         "finish": "1",
+            //         "note": "1",
+            //         "Historys":null
+            //     }
             ],
         };
     },
@@ -641,12 +641,41 @@ export default {
             this.form.finish = String(this.form.finish);
         },
         strToBool(data){//checkbox的字串轉布林
-            data.oestablished = Boolean(data.oestablished);
-            data.ocargo = Boolean(data.ocargo);
-            data.ccargo = Boolean(data.ccargo);
-            data.bill = Boolean(data.bill);
-            data.cbill = Boolean(data.cbill);
-            data.finish = Boolean(data.finish);
+            if(data.oestablished==="true"){
+                data.oestablished=true;
+            }else{
+                data.oestablished=false;
+            }
+
+            if(data.ocargo==="true"){
+                data.ocargo=true;
+            }else{
+                data.ocargo=false;
+            }
+
+            if(data.ccargo==="true"){
+                data.ccargo=true;
+            }else{
+                data.ccargo=false;
+            }
+
+            if(data.bill==="true"){
+                data.bill=true;
+            }else{
+                data.bill=false;
+            }
+
+            if(data.cbill==="true"){
+                data.cbill=true;
+            }else{
+                data.cbill=false;
+            }
+
+            if(data.finish==="true"){
+                data.finish=true;
+            }else{
+                data.finish=false;
+            }
         },
         newOrder(){//清空欄位資料＆禁用
             this.form= {//先清空上個狀態的欄位資料
@@ -845,21 +874,23 @@ export default {
 			this.packagePostData();
 		},
         async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態 
-            // this.done=[];
-            // this.undone=[];//TODO:測試時要記得打開
+            this.done=[];
+            this.undone=[];//TODO:測試時要記得打開
 
+            const url = "reports";
             const params= {
                 username: this.user_name
             }
 
             //透過使用者帳號傳入該使用者的所有訂單
-            let res = await this.$POST(this.url, params);
+            let res = await this.$POST(url, params);
             console.log(res);
 
             //區分出已完成/未完成訂單
             for(let i in res.report){
-                this.strToBool(i);//checkbox的string改boolean
-                if(res.report[i].finish=="true"){
+                console.log(i);
+                this.strToBool(res.report[i]);//checkbox的string改boolean
+                if(res.report[i].finish===true){
                     this.done.push(res.report[i]);//已完成訂單
                 }else{
                     this.undone.push(res.report[i]);//未完成訂單
@@ -867,13 +898,12 @@ export default {
             }
         },
 		async packagePostData() {//送出訂單
-			const url = this.url;
             let params= {
                 username: this.user_name,
                 report: this.form
             }
             this.boolToStr();//checkbox的boolean改string
-            const res = await this.$POST(url, params);
+            const res = await this.$POST(this.url, params);
 			console.log("res: "+res);
             if(res.status==true){
                 alert("訂單儲存成功！");
@@ -881,21 +911,23 @@ export default {
 
             //刷新頁面
             this.$router.push({
-                path: '/placeOrder',
-                query: {
+                name: 'PlaceOrder',
+                params: {
                     role: this.GLOBAL.role,
-                    user_name: this.GLOBAL.user_name,
+                    user_name: this.GLOBAL.account,
                     token: this.GLOBAL.token
                 }
             });
 
             //重新把變數設定回來
-            this.GLOBAL.setAccount(this.$route.username);
-            this.GLOBAL.setToken(this.$route.token);
-            this.GLOBAL.setRole(this.$route.role);
+            this.GLOBAL.setAccount(this.$route.params.user_name);
+            this.GLOBAL.setToken(this.$route.params.token);
+            this.GLOBAL.setRole(this.$route.params.role);
+
+            this.role=this.$route.params.role
+            this.user_name=this.$route.params.user_name
 
             this.packageGetData();
-            // location.reload();//TODO:測試
         },
         reload () {
             // console.log('reload occure')
