@@ -78,7 +78,6 @@ h2{
     position: absolute;
     left:10%;
     top: 83%;
-    /* background-color: rgb(26, 54, 90); */
 }
 </style>
 
