@@ -1,6 +1,7 @@
 <template>
 <div class="placeorder">
     <div class="banner">
+        <input id="search" type="text" placeholder="输入当前章节要搜索内容..."/>
         <el-button class="new_butt" type="primary" @click="newOrder()" plain>清空資料</el-button>
         <div class="progress">
             <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
@@ -35,20 +36,20 @@
         </div>
     </div>
     <div class="input">
-        <el-form ref="form" :model="form" label-width="110px" size="small" style="height: 690px; overflow: auto; scroll:auto;">
+        <el-form ref="form" :model="form" label-width="130px" size="small" style="height: 690px; overflow: auto; scroll:auto;" :rules="rule">
             <div class="info">
                 <h2>訂單資訊</h2>
                 <div class="list">
-                    <el-form-item label="訂單編號">
+                    <el-form-item label="訂單編號" prop="key">
                         <el-input v-model="form.key" id="a1"></el-input>
                     </el-form-item>
-                    <el-form-item label="流程狀態">
+                    <el-form-item label="流程狀態" prop="process">
                         <el-input v-model="form.process" id="a2"></el-input>
                     </el-form-item>
-                    <el-form-item label="交貨急迫性">
+                    <el-form-item label="交貨急迫性" prop="urgent">
                         <el-input v-model="form.urgent" id="a3"></el-input>
                     </el-form-item>
-                    <el-form-item label="訂單日期">
+                    <el-form-item label="訂單日期" prop="odate">
                         <el-date-picker
                         type="date"
                         v-model="form.odate"
@@ -57,7 +58,7 @@
                         :clearable=false
                         ></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="預交日期">
+                    <el-form-item label="預交日期" prop="ddate">
                         <el-date-picker
                         type="date"
                         v-model="form.ddate"
@@ -66,72 +67,71 @@
                         :clearable=false
                         ></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="採購人員">
+                    <el-form-item label="採購人員" prop="purchase">
                         <el-input v-model="form.purchase" id="a6"></el-input>
                     </el-form-item>
-                    <el-form-item label="供應商代號">
+                    <el-form-item label="供應商代號" prop="sname">
                         <el-input v-model="form.sname" id="a7"></el-input>
                     </el-form-item>
-                    <el-form-item label="供應商名稱">
+                    <el-form-item label="供應商名稱" prop="supplier">
                         <el-input v-model="form.supplier" id="a8"></el-input>
                     </el-form-item>
-                    <el-form-item label="供應商簽署人員">
+                    <el-form-item label="供應商簽署人員" prop="signer">
                         <el-input v-model="form.signer" id="a9"></el-input>
                     </el-form-item>
-                    <el-form-item label="發票號碼">
+                    <el-form-item label="發票號碼" prop="invoice">
                         <el-input v-model="form.invoice" id="a10"></el-input>
                     </el-form-item>
                 </div>
                 <div class="book">
-                    <el-form-item label="品名">
+                    <el-form-item label="品名" prop="pname">
                         <el-input v-model="form.pname" id="b1"></el-input>
                     </el-form-item>
-                    <el-form-item label="單價">
+                    <el-form-item label="單價" prop="price">
                         <el-input v-model="form.price" id="b2"></el-input>
                     </el-form-item>
-                    <el-form-item label="數量">
+                    <el-form-item label="數量" prop="pquantity">
                         <el-input v-model="form.pquantity" id="b3"></el-input>
                     </el-form-item>
                     <el-form-item label="總金額">
                         <span>{{this.form.price * this.form.pquantity}}</span>
                     </el-form-item>
-                    <el-form-item label="備註">
+                    <el-form-item label="備註" prop="note">
                         <el-input type='textarea' rows=14 show-word-limit v-model="form.note" id="b4"></el-input>
                     </el-form-item>
                 </div>
             </div>  
             <div class="book2">
                 <h2>交貨單</h2>
-                <el-form-item label="交貨日期">
+                <el-form-item label="交貨日期" prop="sdate">
                     <el-date-picker type="date" v-model="form.sdate" style="width:100%;" id="c1" :clearable=false></el-date-picker>
                 </el-form-item>
                 <el-form-item label="品名">
                     <el-input v-model="form.pname" id="c2"></el-input>
                 </el-form-item>
-                <el-form-item label="數量">
+                <el-form-item label="數量" prop="amount">
                     <el-input v-model="form.amount" id="c3"></el-input>
                 </el-form-item>
             </div>
             <div class="book3">
                 <h2>驗貨單</h2>
-                <el-form-item label="不良品">
+                <el-form-item label="不良品" prop="bad">
                     <el-input v-model="form.bad" id="f1"></el-input>
                 </el-form-item>
-                <el-form-item label="不良品備註">
-                    <el-input v-model="form.badnote" id="f2"></el-input>
+                <el-form-item label="不良品備註" prop="bnote">
+                    <el-input v-model="form.bnote" id="f2"></el-input>
                 </el-form-item>
             </div>
             <div class="book4">
                 <h2>交貨資訊</h2>
-                <el-form-item label="已交貨">
+                <el-form-item label="已交貨總數" prop="volume">
                     <el-input v-model="form.volume" id="d1"></el-input>
                 </el-form-item>
-                <el-form-item label="未交貨">
-                    <span>{{this.form.volume - this.form.sbad}}</span>
-                    <!-- <el-input v-model="form.ntraded" id="d2"></el-input> -->
+                <el-form-item label="未交貨總數" prop="ntraded">
+                    <el-input v-model="form.ntraded" id="d2"></el-input>
                 </el-form-item>
-                <el-form-item label="不良品">
-                    <el-input v-model="form.sbad" id="d2"></el-input>
+                <el-form-item label="不良品總數" prop="key">
+                    <el-input v-model="form.sbad" id="d3"></el-input>
                 </el-form-item>
             </div>
             <el-form-item class="send" >
@@ -198,6 +198,7 @@ export default {
     name: "placeorder",
     data() {
         return {
+            text: "訂單編號",
             checkDisable:{//判斷checkbox禁用
                 check1:false,
                 check2:false,
@@ -210,15 +211,11 @@ export default {
             },
             url:"/createReports",
             proStatus: 0,
-            isRouterAlive: true,
+            rule:{},
+            state:0,
             process:"",
-            role: "order",//this.GLOBAL.role,
+            role: this.GLOBAL.role,
             user_name: this.GLOBAL.account,
-            rule:{//表單驗證規則
-                title: [{required: true, message:"欄位不可為空"},
-                        {min: 0, max: 10, message:"不可超過10個字"}],
-                date: [{required: true, message:"欄位不可為空"}]
-            },
             form: {//顯示在欄位上的資料
 				key:"",
                 process:"",
@@ -577,6 +574,9 @@ export default {
         };
     },
     methods: {
+        findString(){
+            
+        },
         showWhichOne(data){//判斷顯示在歷史狀態下的使用者
             var str="";
             if(!data){
@@ -590,9 +590,7 @@ export default {
             return str;
         },
         showCurrentHistory(data){//判斷目前的訂單進度，決定要禁用哪些button
-            // this.changeStatus(0);
             this.form=data;
-            // console.log(this.form.process);
             var state=0;
             if(data.process=="發包中"){
                 state=1;
@@ -734,7 +732,7 @@ export default {
             });
         },
         changeStatus(state) {//點選上面流程狀態時改變禁用欄位
-
+            this.state=state;
             //改變狀態/新增訂單前先清空所有欄位禁用
             var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e5","e6"];
             this.checkDisable.check1=false;
@@ -756,81 +754,115 @@ export default {
                 document.getElementById(value).style ="color:rgb(61, 119, 173); cursor:pointer;";
             })
 
-            this.buttonDisabled(state);//處理被禁用的狀態按鈕
             this.chageAPI(state);//改變每個流程所對應的API路徑
             this.initStatus(state);//更新欄位禁用狀態
+            this.buttonDisabled(state);//處理被禁用的狀態按鈕
         },
         initStatus(state) {//點某個狀態按鈕就會到這裡變成禁用
             var arr=[];
             this.selectRole();
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
             if (state == 1) {//新建訂單 1
-                arr=["a1","a2","a9","a10","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e5","e6","f1","f2"];
+                arr=["a1","a2","a9","a10","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6","f1","f2"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
                 this.checkDisable.check6=true;
+                this.rule={
+                    urgent:[{required: true, message:"欄位不可為空！"}],
+                    odate:[{required: true, message:"欄位不可為空！"}],
+                    ddate:[{required: true, message:"欄位不可為空！"}],
+                    purchase:[{required: true, message:"欄位不可為空！"}],
+                    sname:[{required: true, message:"欄位不可為空！"}],
+                    supplier:[{required: true, message:"欄位不可為空！"}],
+                    pname:[{required: true, message:"欄位不可為空！"}],
+                    pquantity:[{required: true, message:"欄位不可為空！"}],
+                    price:[{required: true, message:"欄位不可為空！"}],
+                    note:[{required: true, message:"欄位不可為空！"}],
+                }
             } else if (state == 2) {//供應商簽署 2
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e2","e3","e4","e5","e6"];    
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6","f1","f2"];    
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
                 this.checkDisable.check6=true;
+                this.rule={
+                    signer:[{required: true, message:"欄位不可為空！"}],
+                    oestablished:[{required: true, message:"欄位不可為空！"}],
+                }
             } else if (state == 4) {//供應商交貨 4
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c2","d1","d2","e1","e2","e3","e4","e5","e6"];    
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c2","d1","d2","d3","e1","e2","e3","e4","e5","e6","f1","f2"];    
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
-                this.checkDisable.check6=true;            
+                this.checkDisable.check6=true; 
+                this.rule={
+                    sdate:[{required: true, message:"欄位不可為空！"}],
+                    amount:[{required: true, message:"欄位不可為空！"}],
+                }           
             } else if (state == 5) {//驗貨 5
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","e1","e2","e3","e4","e5","e6"]; 
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"]; 
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
-                this.checkDisable.check6=true;               
+                this.checkDisable.check6=true;  
+                this.rule={
+                    bad:[{required: true, message:"欄位不可為空！"}],
+                    bnote:[{required: true, message:"欄位不可為空！"}],
+                }               
             } else if (state == 6) {//共應商交貨完成 6
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e3","e4","e5","e6","f1","f2"];   
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e3","e4","e5","e6","f1","f2"];   
                 this.checkDisable.check1=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
-                this.checkDisable.check6=true;             
+                this.checkDisable.check6=true;   
+                this.rule={}           
             } else if (state == 7) {//中心廠確認交貨完成 7
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e4","e5","e6","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e4","e5","e6","f1","f2"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
-                this.checkDisable.check6=true;                
+                this.checkDisable.check6=true;  
+                this.rule={}               
             } else if (state == 8) {//共應發票開立 8
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e5","e6","f1","f2"];   
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e5","e6","f1","f2"];   
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check5=true;
-                this.checkDisable.check6=true;             
+                this.checkDisable.check6=true;  
+                this.rule={
+                    invoice:[{required: true, message:"欄位不可為空！"}],
+                }            
             } else if (state == 9) {//中心廠確認發票 9
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e6","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e6","f1","f2"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check6=true;
+                this.rule={} 
             }else if (state == 10) {//中心廠確認訂單完成 10
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e5","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","f1","f2"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
                 this.checkDisable.check5=true;
                 this.checkDisable.check2=true;
+                this.rule={} 
             }
+            this.$nextTick(function () {
+                this.$refs['form'].clearValidate();
+            });
             arr.forEach(function(value){
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="background-color:#e6ecf5; border-radius: 5px; cursor:not-allowed;";
@@ -890,7 +922,47 @@ export default {
                 alert("修改已取消");
             }
         },
+        verifyForm(){
+            if(this.state===1){
+                if(!this.urgent || !this.odate || !this.ddate || !this.purchase || !this.sname || !this.supplier || !this.pname || !this.pquantity || !this.price || !this.note){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===2){
+                if(!this.signer || this.oestablished==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===4){
+                if(!this.sdate || !this.amount){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===5){
+                if(!this.bad || !this.bnote){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===6){
+                if(this.ocargo==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===7){
+                if(this.ccargo==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===8){
+                if(!this.invoice || this.bill==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===9){
+                if(this.cbill==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }else if(this.state===10){
+                if(this.finish==false){
+                    alert("請填寫完全部欄位！");
+                }
+            }
+        },
 		onSubmit() {//「儲存訂單」按鈕
+            this.verifyForm();
 			this.packagePostData();
 		},
         async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態 
