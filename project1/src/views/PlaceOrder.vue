@@ -1,7 +1,6 @@
 <template>
 <div class="placeorder">
     <div class="banner">
-        <input id="search" type="text" placeholder="输入当前章节要搜索内容..."/>
         <el-button class="new_butt" type="primary" @click="newOrder()" plain>清空資料</el-button>
         <div class="progress">
             <el-button type="text" @click="changeStatus(1)" id="1">新建訂單</el-button>
@@ -37,7 +36,7 @@
     </div>
     <div class="input">
         <el-form ref="form" :model="form" label-width="130px" size="small" style="height: 690px; overflow: auto; scroll:auto;" :rules="rule">
-            <div class="info">
+            <div class="info"><!--a-->
                 <h2>訂單資訊</h2>
                 <div class="list">
                     <el-form-item label="訂單編號" prop="key">
@@ -85,44 +84,41 @@
                 </div>
                 <div class="book">
                     <el-form-item label="品名" prop="pname">
-                        <el-input v-model="form.pname" id="b1"></el-input>
+                        <el-input v-model="form.pname" id="a11"></el-input>
                     </el-form-item>
                     <el-form-item label="單價" prop="price">
-                        <el-input v-model="form.price" id="b2"></el-input>
+                        <el-input v-model="form.price" id="a12"></el-input>
                     </el-form-item>
                     <el-form-item label="數量" prop="pquantity">
-                        <el-input v-model="form.pquantity" id="b3"></el-input>
+                        <el-input v-model="form.pquantity" id="a13"></el-input>
                     </el-form-item>
                     <el-form-item label="總金額">
                         <span>{{this.form.price * this.form.pquantity}}</span>
                     </el-form-item>
                     <el-form-item label="備註" prop="note">
-                        <el-input type='textarea' rows=14 show-word-limit v-model="form.note" id="b4"></el-input>
+                        <el-input type='textarea' rows=14 show-word-limit v-model="form.note" id="a14"></el-input>
                     </el-form-item>
                 </div>
             </div>  
-            <div class="book2">
+            <div class="book2"><!--b-->
                 <h2>交貨單</h2>
                 <el-form-item label="交貨日期" prop="sdate">
-                    <el-date-picker type="date" v-model="form.sdate" style="width:100%;" id="c1" :clearable=false></el-date-picker>
-                </el-form-item>
-                <el-form-item label="品名">
-                    <el-input v-model="form.pname" id="c2"></el-input>
+                    <el-date-picker type="date" v-model="form.sdate" style="width:100%;" id="b1" :clearable=false></el-date-picker>
                 </el-form-item>
                 <el-form-item label="數量" prop="amount">
-                    <el-input v-model="form.amount" id="c3"></el-input>
+                    <el-input v-model="form.amount" id="b2"></el-input>
                 </el-form-item>
             </div>
-            <div class="book3">
+            <div class="book3"><!--c-->
                 <h2>驗貨單</h2>
                 <el-form-item label="不良品" prop="bad">
-                    <el-input v-model="form.bad" id="f1"></el-input>
+                    <el-input v-model="form.bad" id="c1"></el-input>
                 </el-form-item>
                 <el-form-item label="不良品備註" prop="bnote">
-                    <el-input v-model="form.bnote" id="f2"></el-input>
+                    <el-input v-model="form.bnote" id="c2"></el-input>
                 </el-form-item>
             </div>
-            <div class="book4">
+            <div class="book4"><!--d-->
                 <h2>交貨資訊</h2>
                 <el-form-item label="已交貨總數" prop="volume">
                     <el-input v-model="form.volume" id="d1"></el-input>
@@ -130,15 +126,11 @@
                 <el-form-item label="未交貨總數" prop="ntraded">
                     <el-input v-model="form.ntraded" id="d2"></el-input>
                 </el-form-item>
-                <el-form-item label="不良品總數" prop="key">
+                <el-form-item label="不良品總數" prop="sbad">
                     <el-input v-model="form.sbad" id="d3"></el-input>
                 </el-form-item>
             </div>
-            <el-form-item class="send" >
-                <el-button type="primary" @click="onSubmit()" :disabled="checkDisable.check7">儲存訂單</el-button><!--TODO:顯示歷史狀態時要隱藏-->
-                <el-button @click="cancel()" :disabled="checkDisable.check8">取消更改</el-button>
-            </el-form-item>
-            <div class="checkbox">
+            <div class="checkbox"><!--e-->
                 <el-checkbox v-model="form.oestablished" id="e1" :disabled="checkDisable.check1">訂單接受</el-checkbox>
                 <el-checkbox v-model="form.ocargo" id="e2" :disabled="checkDisable.check2">交貨完成</el-checkbox>
                 <el-checkbox v-model="form.ccargo" id="e3" :disabled="checkDisable.check3">確認交貨完成</el-checkbox><br>
@@ -146,6 +138,11 @@
                 <el-checkbox v-model="form.cbill" id="e5" :disabled="checkDisable.check5">確認發票開立</el-checkbox>
                 <el-checkbox v-model="form.finish" id="e6" :disabled="checkDisable.check6">訂單完成</el-checkbox>
             </div>
+            <el-form-item class="send">
+                <el-button type="primary" @click="onSubmit()" :disabled="checkDisable.check7">儲存訂單</el-button>
+                <el-button @click="cancel()" :disabled="checkDisable.check8">取消更改</el-button>
+            </el-form-item>
+            
         </el-form>
     </div>
     <div class="menu">
@@ -217,31 +214,33 @@ export default {
             role: this.GLOBAL.role,
             user_name: this.GLOBAL.account,
             form: {//顯示在欄位上的資料
-				key:"",
+                key:"",
                 process:"",
                 urgent:"",
                 odate:"",
                 ddate:"",
                 purchase:"",
-                sname: "",
+                sname:"",
                 supplier:"",
-                signer: "",
+                signer:"",
                 invoice:"",
                 pname:"",
-                pquantity: "",
-                price: "",
-                sdate: "",
-                amount: "",
-                sbad: "",
-                volume: "",
-                ntraded: "",
-                oestablished: "false",
-                ocargo: "false",
-                ccargo: "false",
-                bill: "false",
-                cbill: "false",
-                finish: "false",
-                note: ""
+                pquantity:"",
+                price:"",
+                note:"",
+                sdate:"",
+                amount:"",
+                bad:"",
+                bnote:"",
+                volume:"",
+                ntraded:"",
+                sbad:"",
+                oestablished:false,
+                ocargo:false,
+                ccargo:false,
+                bill:false,
+                cbill:false,
+                finish:false
             },
             done:[//已完成訂單
             ],
@@ -574,9 +573,6 @@ export default {
         };
     },
     methods: {
-        findString(){
-            
-        },
         showWhichOne(data){//判斷顯示在歷史狀態下的使用者
             var str="";
             if(!data){
@@ -734,7 +730,7 @@ export default {
         changeStatus(state) {//點選上面流程狀態時改變禁用欄位
             this.state=state;
             //改變狀態/新增訂單前先清空所有欄位禁用
-            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e5","e6"];
+            var arr_init=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
             this.checkDisable.check1=false;
             this.checkDisable.check2=false;
             this.checkDisable.check3=false;
@@ -763,7 +759,7 @@ export default {
             this.selectRole();
             //getElementByClassName沒辦法改變disabled值，只有getElementById可以
             if (state == 1) {//新建訂單 1
-                arr=["a1","a2","a9","a10","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6","f1","f2"];
+                arr=["a2","a9","a10","b1","b2","c1","c2","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
@@ -771,6 +767,7 @@ export default {
                 this.checkDisable.check5=true;
                 this.checkDisable.check6=true;
                 this.rule={
+                    key:[{required: true, message:"欄位不可為空！"}],
                     urgent:[{required: true, message:"欄位不可為空！"}],
                     odate:[{required: true, message:"欄位不可為空！"}],
                     ddate:[{required: true, message:"欄位不可為空！"}],
@@ -783,7 +780,7 @@ export default {
                     note:[{required: true, message:"欄位不可為空！"}],
                 }
             } else if (state == 2) {//供應商簽署 2
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e2","e3","e4","e5","e6","f1","f2"];    
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e2","e3","e4","e5","e6"];    
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
@@ -794,7 +791,7 @@ export default {
                     oestablished:[{required: true, message:"欄位不可為空！"}],
                 }
             } else if (state == 4) {//供應商交貨 4
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c2","d1","d2","d3","e1","e2","e3","e4","e5","e6","f1","f2"];    
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","c1","c2","e1","e2","e3","e4","e5","e6"];    
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
@@ -804,9 +801,12 @@ export default {
                 this.rule={
                     sdate:[{required: true, message:"欄位不可為空！"}],
                     amount:[{required: true, message:"欄位不可為空！"}],
+                    volume:[{required: true, message:"欄位不可為空！"}],
+                    ntraded:[{required: true, message:"欄位不可為空！"}],
+                    sbad:[{required: true, message:"欄位不可為空！"}]
                 }           
             } else if (state == 5) {//驗貨 5
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"]; 
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","e1","e2","e3","e4","e5","e6"]; 
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
@@ -816,9 +816,12 @@ export default {
                 this.rule={
                     bad:[{required: true, message:"欄位不可為空！"}],
                     bnote:[{required: true, message:"欄位不可為空！"}],
+                    volume:[{required: true, message:"欄位不可為空！"}],
+                    ntraded:[{required: true, message:"欄位不可為空！"}],
+                    sbad:[{required: true, message:"欄位不可為空！"}]
                 }               
             } else if (state == 6) {//共應商交貨完成 6
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e3","e4","e5","e6","f1","f2"];   
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e3","e4","e5","e6"];   
                 this.checkDisable.check1=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
@@ -826,7 +829,7 @@ export default {
                 this.checkDisable.check6=true;   
                 this.rule={}           
             } else if (state == 7) {//中心廠確認交貨完成 7
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e4","e5","e6","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e2","e4","e5","e6"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check4=true;
@@ -834,7 +837,7 @@ export default {
                 this.checkDisable.check6=true;  
                 this.rule={}               
             } else if (state == 8) {//共應發票開立 8
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e5","e6","f1","f2"];   
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e2","e3","e5","e6"];   
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
@@ -844,7 +847,7 @@ export default {
                     invoice:[{required: true, message:"欄位不可為空！"}],
                 }            
             } else if (state == 9) {//中心廠確認發票 9
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e6","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e2","e3","e4","e6"];
                 this.checkDisable.check1=true;
                 this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
@@ -852,12 +855,12 @@ export default {
                 this.checkDisable.check6=true;
                 this.rule={} 
             }else if (state == 10) {//中心廠確認訂單完成 10
-                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","f1","f2"];
+                arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","b1","b2","c1","c2","d1","d2","d3","e1","e2","e3","e4","e5"];
                 this.checkDisable.check1=true;
+                this.checkDisable.check2=true;
                 this.checkDisable.check3=true;
                 this.checkDisable.check4=true;
-                this.checkDisable.check5=true;
-                this.checkDisable.check2=true;
+                this.checkDisable.check5=true;         
                 this.rule={} 
             }
             this.$nextTick(function () {
@@ -924,39 +927,39 @@ export default {
         },
         verifyForm(){
             if(this.state===1){
-                if(!this.urgent || !this.odate || !this.ddate || !this.purchase || !this.sname || !this.supplier || !this.pname || !this.pquantity || !this.price || !this.note){
+                if(!this.form.key || !this.form.urgent || !this.form.odate || !this.form.ddate || !this.form.purchase || !this.form.sname || !this.form.supplier || !this.form.pname || !this.form.pquantity || !this.form.price || !this.form.note){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===2){
-                if(!this.signer || this.oestablished==false){
+                if(!this.form.signer || this.form.oestablished==false){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===4){
-                if(!this.sdate || !this.amount){
+                if(!this.form.sdate || !this.form.amount || !this.form.volume || !this.form.ntraded || !this.form.sbad){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===5){
-                if(!this.bad || !this.bnote){
+                if(!this.form.bad || !this.form.bnote || !this.form.volume || !this.form.ntraded || !this.form.sbad){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===6){
-                if(this.ocargo==false){
+                if(this.form.ocargo==false){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===7){
-                if(this.ccargo==false){
+                if(this.form.ccargo==false){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===8){
-                if(!this.invoice || this.bill==false){
+                if(!this.form.invoice || this.form.bill==false){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===9){
-                if(this.cbill==false){
+                if(this.form.cbill==false){
                     alert("請填寫完全部欄位！");
                 }
             }else if(this.state===10){
-                if(this.finish==false){
+                if(this.form.finish==false){
                     alert("請填寫完全部欄位！");
                 }
             }
@@ -1026,6 +1029,9 @@ export default {
             this.isRouterAlive = false;
             this.$nextTick( ()=> { this.isRouterAlive=true } ) ;
         },
+    },
+    computed(){
+
     },
     created() {
         this.packageGetData();
@@ -1156,7 +1162,7 @@ h4{
 	width: 20%;
 	position: fixed;
 	left: 70%;
-	top: 41%;
+	top: 37%;
 }
 
 .book4 {
@@ -1165,7 +1171,7 @@ h4{
 	width: 20%;
 	position: fixed;
 	left: 70%;
-	top: 65.5%;
+	top: 64%;
 }
 
 .info {
