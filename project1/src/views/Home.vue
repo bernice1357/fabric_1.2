@@ -1,4 +1,4 @@
-<script src="http://localhost:8098"></script>
+<!-- <script src="http://localhost:8098"></script> -->
 <template>
 <div class="home">
     <router-view></router-view>

@@ -146,10 +146,7 @@
         </el-form>
     </div>
     <div class="menu">
-		<el-menu
-        default-active="1"
-        class="el-menu-vertical-demo undone"
-        style="height: 41%; overflow: auto; scroll:auto;">
+		<el-menu default-active="1" class="el-menu-vertical-demo undone" style="height: 41%; overflow: auto; scroll:auto;">
             <el-submenu index="100">
                 <template slot="title">未完成訂單</template>
                 <!--顯示每一筆訂單 -->
@@ -165,11 +162,9 @@
                 </el-submenu>
             </el-submenu>
         </el-menu>
-        <el-input placeholder="搜尋..." prefix-icon="el-icon-search" clearable class="find" ></el-input>
-        <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo done"
-        style="height: 45%;">
+        <el-input placeholder="搜尋" prefix-icon="el-icon-search" clearable class="find" ></el-input>
+
+        <el-menu default-active="2" class="el-menu-vertical-demo done" style="height: 45%;">
 			<el-submenu index="200">
                 <template slot="title">已完成訂單</template>
                 <!--顯示每一筆訂單 -->
@@ -624,7 +619,7 @@ export default {
         },
         showDoneHistory(data){//顯示已完成訂單
             this.form=data;
-            var arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","d3","e1","e2","e3","e4","e5","e6"];
+            var arr=["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","b1","b2","b3","b4","c1","c2","c3","d1","d2","e1","e2","e3","e4","e5","e6"];
             arr.forEach(function(value){
                 document.getElementById(value).disabled = true;
                 document.getElementById(value).style ="background-color: #e6ecf5";
@@ -968,7 +963,7 @@ export default {
             this.verifyForm();
 			this.packagePostData();
 		},
-        async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態 
+        async packageGetData() {//導入訂單畫面的時候，會傳入所有訂單資料跟狀態
             this.done=[];
             this.undone=[];
             
