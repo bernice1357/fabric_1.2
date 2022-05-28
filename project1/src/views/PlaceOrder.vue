@@ -140,9 +140,8 @@
             </div>
             <el-form-item class="send">
                 <el-button type="primary" @click="onSubmit()" :disabled="checkDisable.check7">儲存訂單</el-button>
-                <el-button @click="cancel()" :disabled="checkDisable.check8">取消更改</el-button>
+                <el-button native-type="reset" :disabled="checkDisable.check8">取消更改</el-button>
             </el-form-item>
-            
         </el-form>
     </div>
     <div class="menu">
@@ -155,7 +154,7 @@
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
+                        v-for="(history, index) in item.Record.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
                             <el-button type="text" @click="showUndoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
@@ -173,7 +172,7 @@
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
+                        v-for="(history, index) in item.Record.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
                             <el-button type="text" @click="showDoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
@@ -697,14 +696,16 @@ export default {
                 sdate: "",
                 amount: "",
                 sbad: "",
+                bad:"",
+                bnote:"",
                 volume: "",
                 ntraded: "",
                 oestablished: "false",
-                ocargo: "false",
-                ccargo: "false",
-                bill: "false",
-                cbill: "false",
-                finish: "false",
+                ocargo: false,
+                ccargo: false,
+                bill: false,
+                cbill: false,
+                finish: false,
                 note: ""
             };
             this.changeStatus(0);//先清空欄位禁用
@@ -913,13 +914,6 @@ export default {
                 this.url="reports/Finish";
             }
         },
-        cancel() {//「取消更改」按鈕
-            var yes = confirm("確定要取消更改嗎？");
-            if (yes) {//直接重新匯入原本訂單資料，沒有要管驗證
-                // location.reload();//TODO:重新匯入資料
-                alert("修改已取消");
-            }
-        },
         verifyForm(){
             if(this.state===1){
                 if(!this.form.key || !this.form.urgent || !this.form.odate || !this.form.ddate || !this.form.purchase || !this.form.sname || !this.form.supplier || !this.form.pname || !this.form.pquantity || !this.form.price || !this.form.note){
@@ -979,8 +973,8 @@ export default {
             //區分出已完成/未完成訂單
             for(let i in res.report){
                 console.log(i);
-                this.strToBool(res.report[i]);//checkbox的string改boolean
-                if(res.report[i].finish===true){
+                this.strToBool(res.report[i].Record);//checkbox的string改boolean
+                if(res.report[i].Record.finish===true){
                     this.done.push(res.report[i]);//已完成訂單
                 }else{
                     this.undone.push(res.report[i]);//未完成訂單
@@ -994,7 +988,6 @@ export default {
             }
             this.boolToStr();//checkbox的boolean改string
             const res = await this.$POST(this.url, params);
-			console.log("res: "+res);
             if(res.status==true){
                 alert("訂單儲存成功！");
             }
