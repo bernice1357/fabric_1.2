@@ -140,7 +140,7 @@
             </div>
             <el-form-item class="send">
                 <el-button type="primary" @click="onSubmit()" :disabled="checkDisable.check7">儲存訂單</el-button>
-                <el-button native-type="reset" :disabled="checkDisable.check8">取消更改</el-button>
+                <el-button :disabled="checkDisable.check8" @click="cancel()">取消更改</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -154,7 +154,7 @@
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Record.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
                             <el-button type="text" @click="showUndoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
@@ -172,7 +172,7 @@
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
                         <el-timeline-item
-                        v-for="(history, index) in item.Record.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
+                        v-for="(history, index) in item.Historys" :key="index" :timestamp="showWhichOne(history.Report.process)">
                             <el-button type="text" @click="showDoneHistory(history.Report)">{{history.Report.process}}</el-button>
                         </el-timeline-item>
                     </el-timeline>
@@ -203,6 +203,7 @@ export default {
             url:"/createReports",
             proStatus: 0,
             rule:{},
+            temp:{},
             state:0,
             process:"",
             role: this.GLOBAL.role,
@@ -567,6 +568,12 @@ export default {
         };
     },
     methods: {
+        cancel(){
+            const yes = alert("要取消修改嗎？");
+            if(yes){
+                this.form=this.data;//改回原本資料
+            }
+        },
         showWhichOne(data){//判斷顯示在歷史狀態下的使用者
             var str="";
             if(!data){
@@ -580,6 +587,7 @@ export default {
             return str;
         },
         showCurrentHistory(data){//判斷目前的訂單進度，決定要禁用哪些button
+            this.temp=data;//取消更改保留用
             this.form=data;
             var state=0;
             if(data.process=="發包中"){
@@ -700,7 +708,7 @@ export default {
                 bnote:"",
                 volume: "",
                 ntraded: "",
-                oestablished: "false",
+                oestablished: false,
                 ocargo: false,
                 ccargo: false,
                 bill: false,
@@ -973,8 +981,8 @@ export default {
             //區分出已完成/未完成訂單
             for(let i in res.report){
                 console.log(i);
-                this.strToBool(res.report[i].Record);//checkbox的string改boolean
-                if(res.report[i].Record.finish===true){
+                this.strToBool(res.report[i]);//checkbox的string改boolean
+                if(res.report[i].finish===true){
                     this.done.push(res.report[i]);//已完成訂單
                 }else{
                     this.undone.push(res.report[i]);//未完成訂單
@@ -1011,12 +1019,7 @@ export default {
             this.user_name=this.$route.params.user_name
 
             this.packageGetData();
-        },
-        reload () {
-            // console.log('reload occure')
-            this.isRouterAlive = false;
-            this.$nextTick( ()=> { this.isRouterAlive=true } ) ;
-        },
+        }
     },
     computed(){
 
