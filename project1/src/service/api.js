@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const domain = process.env.VUE_APP_HOME_URL;
+const domain = "http://192.168.10.50:8888/";
 
 const api = axios.create({
   baseURL: `${domain}`,
