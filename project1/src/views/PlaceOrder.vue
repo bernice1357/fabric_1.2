@@ -168,7 +168,7 @@
                 <template slot="title">已完成訂單</template>
                 <!--顯示每一筆訂單 -->
                 <el-submenu :index=index v-for="(item, index) in done" :key="index">
-                    <template slot="title">訂單{{item.key}}</template>
+                    <template slot="title"><el-button type="text" @click="showCurrentHistory(item)">訂單{{item.key}}</el-button></template>
                     <!--顯示歷史狀態 -->
                     <el-timeline style="height: 150px; overflow: auto; scroll:auto;">
                         <el-timeline-item

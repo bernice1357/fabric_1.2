@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const domain = "http://localhost:8888/";
-
+const domain = process.env.VUE_APP_HOME_URL;
 
 const api = axios.create({
   baseURL: `${domain}`,
